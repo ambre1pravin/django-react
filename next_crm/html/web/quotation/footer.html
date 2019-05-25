@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Online Statement | Saalz</title>
+<style>
+.clearfix:after,.container:after,.panel-body:after,.row:after{
+    clear:both
+}
+html{
+    font-family:sans-serif;
+    -ms-text-size-adjust:100%;
+    -webkit-text-size-adjust:100%;
+    font-size:10px;
+    -webkit-tap-highlight-color:transparent
+}
+body{
+    margin:0;
+    font-family:sans-serif;
+    font-size:14px;
+    line-height:1.42857143;
+    color:#333;
+    background-color:#fff
+}
+footer{
+    display:block
+}
+.text-center{
+    text-align:center
+}
+.panel-footer{
+    padding:10px 15px;
+    border-color: #df2873 !important;
+    background-color:#f5f5f5;
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+}
+    @media print{
+    *{
+        color:#444!important;
+        -webkit-print-color-adjust:exact
+    }
+    a.invoice-action{
+        display:none
+    }
+    .col-xs-12,.container,.panel-body,.panel-footer,.panel-heading,.row{
+        margin:0!important;
+        padding:0!important;
+        width:100%
+    }
+    .panel.panel-default{
+        border:none
+    }
+    .panel-body{
+        margin-top:10px!important
+    }
+    .panel-footer p{
+        margin-top:10px
+    }
+    div.module__quotation-statement h1.statement-name,div.module__quotation-statement h2.items-service-head{
+        color:#B2C2CD!important
+    }
+    div.module__quotation-statement .statement-date,div.module__quotation-statement .statement-name{
+        margin-top:0;
+        margin-bottom:15px
+    }
+    div.module__quotation-statement table.items{
+        margin:0 0 20px
+    }
+    div.module__quotation-statement table.items[data-columns="6"] td:first-child{
+        width:45%
+    }
+    div.module__quotation-statement table.items[data-columns="5"] td:first-child{
+        width:55%
+    }
+    div.module__quotation-statement table.items[data-columns="4"] td:first-child,div.module__quotation-statement table.items[data-columns="3"]      td:first-child,div.module__quotation-statement table.items[data-columns="2"] td:first-child{
+        width:65%
+    }
+    div.module__quotation-statement table.items td:first-child,div.module__quotation-statement table.items th:first-child{
+        padding-left:20px
+    }
+    div.module__quotation-statement table.items td:last-child,div.module__quotation-statement table.items th:last-child{
+        padding-right:20px;
+        width:auto!important
+    }
+    div.module__quotation-statement table.items td:not(:first-child),div.module__quotation-statement table.items th:not(:first-child){
+        word-break:keep-all
+    }
+    div.module__quotation-statement table.items th{
+        color:#111!important
+    }
+    div.module__quotation-statement div.total-box{
+        margin-right:20px;
+        margin-bottom:10px
+    }
+    div.module__quotation-statement div.total-box p:last-child span,div.module__quotation-statement div.total-box strong{
+        color:#111!important;
+        font-weight:700
+    }
+}
+</style>
+
+</head>
+{% if legacy_information %}
+<body>
+    <div class="container module__quotation module__quotation-statement">
+        <div class="row">
+            <div class="col-xs-12">
+                    <div class="panel-footer text-center">
+                        <p>{{legacy_information}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+{% endif %}
+</html>

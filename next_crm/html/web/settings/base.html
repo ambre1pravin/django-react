@@ -1,0 +1,625 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Layout Settings</title>
+<link href="/static/front/css/styles.css" rel="stylesheet"/>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+    <link href="/static/front/stylesheets/react-notifications/notifications.css" rel="stylesheet"/>
+</head>
+
+<body class="dashboard-bg">
+    <!-- Header part start here-->
+    <div>
+    <header class="crm-header clearfix module__sales">
+        <div id="mega-icon" class="pull-left">
+            <a href="/dashboard/">
+                <i class="fa fa-th" aria-hidden="true"></i></a>
+        </div>
+            <h1 class="pull-left">
+                <a title="Saalz" href="/dashboard/">
+                <img src="/static/front/images/saalz-small.png" alt="Saalz" height="30">
+                </a>
+            </h1>
+        <div class="pull-right">
+            <div class="top-profile dropdown">
+                <a id="head__profile" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span>{{ request.user.email }}</span>
+                    <i class="fa fa-chevron-down"></i><img src="/static/front/images/avtar1.png" class="top-dp">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="profile">
+                    <li>
+                        <a href="#" title="Profile">Profile</a>
+                    </li>
+                    <li>
+                        <a href="#" title="Account Settings">Account Settings</a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="/logout" title="Sign Out">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div id="crm-app" class="clearfix module__sales have-sublinks">
+            <nav id="main-nav" class="clearfix no-expand">
+                <button data-target="main-nav__list" type="button" class="navbar-toggle">
+                    <span class="sr-only">Menu</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <ul id="main-nav__list" class="nav navbar-nav ">
+                    <li class="active">
+                        <a title="" data-toggle="tooltip" data-placement="right" data-original-title="Customers" href="/user/list/">
+                            <i class="icon-sales-team-settings"></i>
+                            <span>User</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/company/setting/" title="" data-toggle="tooltip" data-placement="right" data-original-title="Settings">
+                            <i class="icon-settings"></i>
+                            <span>General Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/layoutsetting/" title="" data-toggle="tooltip" data-placement="right" data-original-title="Products">
+                            <i class="icon-settings"></i>
+                            <span>Contact Layout Setting</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="container-fluid">
+                {% block body %}{% endblock %}
+            </div>
+    </div>
+
+    <!--End of Header-->
+
+
+
+
+
+    <!--modal area-->
+    <div id="settings-modal" class="modal fade" data-type="" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+    <script src="/static/front/javascripts/jquery-min.js" type="text/javascript"></script>
+    <script src="/static/front/javascripts/jquery-ui.min.js"></script>
+    <script src="/static/front/javascripts/bootstrap.min.js"></script>
+    <script src="/static/front/javascripts/bootstrap-select.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/static/front/javascripts/notify.min.js"></script>
+    <!--<script src="/static/front/javascripts/common.js" type="text/javascript"></script>-->
+    {% if request.user.profile.language == 'English' %}
+        <script src="/static/front/javascripts/en.js"></script>
+    {% endif %}
+
+    <script>
+    var resize_set_height = [];
+    function set_height(ele1, ele2) {
+        ele1.css('height', '');
+        ele2.css('height', '');
+        if(ele1.height() > ele2.height()) {
+            ele2.height(ele1.height());
+        } else {
+            ele1.height(ele2.height());
+        }
+        if(!resize_set_height.hasOwnProperty(ele1.selector)) {
+            $(window).resize(function() { set_height(ele1, ele2); });
+            resize_set_height[ele1.selector] = true;
+        }
+    }
+    /* popup notification */
+    if($.notify) {
+        $.notify.defaults( {showAnimation: 'fadeIn'} );
+        $.notify.addStyle('crm', {
+          html: "<div><span data-notify-text/></div>"
+        });
+        function notification(msg, type) {
+            $.notify(msg, {
+              style: 'crm',
+              className: type
+            });
+        }
+    }
+
+    function show_notification(message){
+        var msg_html = '<span><div class="notification notification-success"><div class="notification-message" role="alert">';
+        msg_html +='<h4 class="title">Success message</h4><div class="message" id="notification_message">'+message+'</div>';
+        msg_html +='</div></div></span>';
+        $('#n_container').html(msg_html)
+    }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            reload_window = true ;
+            var modal_set = $('#settings-modal'),
+                unused = $('#unused_fields div.panel-body'),
+                icons = {
+                        'single-line': 'sl',
+                        'multi-line': 'ml',
+                        'checkbox': 'ch',
+                        'date': 'calen',
+                        'number': 'num',
+                        'radio': 'radio',
+                        'date-time': 'dt',
+                        'currency': 'cur',
+                        'drop-down': 'dd',
+                        'rating': 'rat',
+                        'phone': 'ph'
+                    },
+                deleted = { 'fields': {},
+                           'unused': {},
+                          'tabs': []};
+
+            $(".left-button-area").height($(".frombox .col-xs-12").height());
+
+            function drag_helper_function() {
+                var ele = $(this),
+                    data_type = (ele.attr('data-type') != undefined) ? ele.attr('data-type') : ele[0].innerText.toLowerCase().replace(new RegExp(' ', 'g'), '-'),
+                    options, field_ele, data_id, default_attr;
+
+                if(['checkbox', 'radio', 'drop-down'].indexOf(data_type) != -1) {
+                    options = '<li data-action="properties">Set Properties</li>';
+                    field_ele = '<div class="form-element"><p>Option 1</p><p>Option 2</p></div>';
+                } else {
+                    options = '';
+                    field_ele = '<div class="form-element">' + ele[0].innerText + '</div>';
+                }
+                if(ele.attr('data-id') != undefined) {
+                    data_id = ele.attr('data-id');
+                } else {
+                    data_id = 'new';
+                }
+                if(ele.attr('data-default') != undefined && ele.attr('data-default') == 'true') {
+                    default_attr = 'data-default="true"';
+                } else {
+                    default_attr = 'data-default="false"';
+                }
+
+                drag_helper = '<li class="drag_helper" data-type="' + data_type + '" data-id="'+ data_id +'" '+ default_attr +'><div class="row">';
+                drag_helper += '<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12"><input type="text"  value="' + ele[0].innerText + '" /></div>';
+                drag_helper += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">'+field_ele+'</div>';
+                drag_helper += '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">';
+
+                if(['radio', 'drop-down', 'checkbox'].indexOf(data_type) != -1) {
+                    drag_helper += '<div class="dropdown"><button class="btn btn-default editbtn edit-field" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-edit"></i></button>';
+                    drag_helper += '<div class="dd-options"><span>Select Option</span>';
+                    drag_helper += '<ul class="options-list">'
+                    //drag_helper += '<li data-action="required">Mark Required</li>';
+                    drag_helper += options ;
+                    drag_helper +='</ul>';
+                    drag_helper += '</div></div>';
+                }
+
+                drag_helper += '<button class="btn btn-default editbtn delete-field" title="Remove"><i class="fa fa-trash"></i></button>';
+                drag_helper += '</div></div></li>';
+                return $(drag_helper);
+            }
+
+            var sortable_options = {
+                containment: $('div.frombox'),
+                connectWith: 'ul.setting-fields-list',
+                cursor: 'move',
+                items: '> li:not(.unsortable)',
+                revert: true,
+                receive: function(event, ui) {
+                    ths = $(this);
+                    if(ui.item.closest('div.tab-pane').attr('id') == 'unused_fields') {
+                        tab_id = $('ul.nav-tabs.custTab > li > a[aria-controls="'+ ths.closest('div.tab-pane').attr('id') +'"]').closest('li').attr('data-id');
+                        if(deleted.unused.hasOwnProperty(tab_id)) {
+                            index = deleted.unused[tab_id].indexOf(ui.item.attr('data-id'));
+                            if(index > -1) {
+                                deleted.unused[tab_id].splice(index, 1);
+                            }
+                        }
+                        ui.item.remove();
+                    }
+                    if(ths.hasClass('empty-list')) {
+                        ths.closest('div.tab-pane').find('ul.setting-fields-list').removeClass('empty-list');
+                    }
+                },
+                stop: function(event, ui) {
+                    ui.item.removeClass('drag_helper ui-draggable-dragging').removeAttr('style').addClass('ui-sortable-handle');
+                    $('body').removeAttr('style');
+                    set_height($('div.tab-content div.tab-pane.active > div.row > div:first-child'), $('div.tab-content div.tab-pane.active > div.row > div:last-child'));
+                }
+            };
+
+            $('div.left-button-area button').each(function(i, ele) {
+                ele = $(ele);
+                ele.draggable({
+                    cancel: false,
+                    containment: $('div.frombox'),
+                    connectToSortable: 'div.frombox ul.setting-fields-list',
+                    cursor: 'move',
+                    helper: drag_helper_function,
+                    revert: 'invalid',
+                    zIndex: 100
+                });
+
+                if(ele.closest('div.tab-pane').attr('id') == 'unused_fields') {
+                    un_tab_id = $('ul.custTab a[data-toggle="tab"][aria-controls="'+ ele.closest('div[class^="uf-"]').attr('class').replace('clearfix', '').replace('uf-', '').trim() +'"]').closest('li').attr('data-id');
+
+                    if(!deleted.unused.hasOwnProperty(un_tab_id)) {
+                        deleted.unused[un_tab_id] = [ele.attr('data-id')];
+                    } else {
+                        deleted.unused[un_tab_id].push(ele.attr('data-id'));
+                    }
+
+                    ele.draggable({
+                        start: function(event, ui) {
+                            $(this).hide();
+                            if(this.parentElement.childElementCount == 2) {
+                                this.parentElement.parentElement.classList.add('empty-list');
+                            }
+                        },
+                        stop: function(event, ui) {
+                            var btn_dragged = ui.helper.closest('div.clearfix').find('button[data-id="'+ ui.helper.attr('data-id') +'"]');
+                            if(btn_dragged.length) {
+                                btn_dragged.show().closest('div.panel-body').removeClass('empty-list');
+                            }
+                        }
+                    });
+                }
+            });
+
+            $('div.frombox ul.setting-fields-list').sortable(sortable_options);
+
+            $(document).on('mouseleave', 'div.frombox ul.setting-fields-list li', function() {
+                ths = $(this);
+                if (ths.find('div.dropdown').hasClass('open')) {
+                    ths.find('div.dd-options').dropdown('toggle');
+                }
+            });
+
+            $(document).on('keyup',
+                           'ul.setting-fields-list li[data-type="single-line"] input, ul.setting-fields-list li[data-type="multi-line"] input, ul.setting-fields-list li[data-type="date-time"] input, ul.setting-fields-list li[data-type="currency"] input, ul.setting-fields-list li[data-type="rating"] input, ul.setting-fields-list li[data-type="phone"] input',
+                           function() {
+                var li = $(this).closest('li');
+
+                if(li.attr('data-type') == 'multi-line') {
+                    li.find('div.form-element p').text($(this).val());
+                } else {
+                    li.find('div.form-element').text($(this).val());
+                }
+            });
+
+            $(document).on('click', 'body ul.setting-fields-list ul.options-list li', function() {
+                var li = $(this);
+                window.field_li = li.closest('li[data-type]');
+
+                if(li.attr('data-action') == 'required') {
+                    if(li.text().indexOf('Mark') == 0) {
+                        window.field_li.find('div.row div:first').addClass('required');
+                        li.text('Unmark Required');
+                    } else {
+                        window.field_li.find('div.row div:first').removeClass('required');
+                        li.text('Mark Required');
+                    }
+                } else {
+                    var field_label = window.field_li.find('input[type="text"]').val(),
+                        options = window.field_li.find('div.form-element p'),
+                        modal_html = '<div>Label: <input type="text" value="'+field_label+'" /></div>';
+
+                    modal_html += '<div class="field_options">';
+                    options.each(function(i, v) {
+                        modal_html += '<p><input type="text" value="'+v.innerText+'" /> <span class="add"><i class="fa fa-plus-circle"></i></span><span class="subtract"><i class="fa fa-minus-circle"></i></span></p>';
+                    });
+                    modal_html += '</div>';
+                    var is_checked = window.field_li.find('div.row div:first').hasClass('required') ? 'checked' : '';
+                    //modal_html += '<div><label><input type="checkbox" '+is_checked+' /> Required</label></div>';
+
+                    modal_set.attr('data-type', 'field').find('h4.modal-title').html('<span class="pink">'+field_label+'</span> Property');
+                    modal_set.find('div.modal-body').html(modal_html);
+                    modal_set.modal('show');
+                }
+            });
+
+            $(document).on('keyup', '#settings-modal div.modal-body div:first input', function() {
+                modal_set.find('h4.modal-title span').text($(this).val());
+            });
+            $(document).on('click', '#settings-modal span.add', function() {
+                $('<p><input type="text" value="Option" /> <span class="add"><i class="fa fa-plus-circle"></i></span><span class="subtract"><i class="fa fa-minus-circle"></i></span></p>').insertAfter($(this).closest('p'));
+            });
+            $(document).on('click', '#settings-modal span.subtract', function() {
+                if($(this).closest('div.field_options').find('p').length > 2) {
+                    $(this).closest('p').remove();
+                }
+            });
+
+            $(document).on('click', 'div.pull-right.new-tab', function() {
+                modal_set.find('h4.modal-title').text('New Tab');
+                modal_set.find('div.modal-body').html('<form method="post" action="" onsubmit="return false"><table><tr><td><label>Tab Name:</label></td><td><input type="text" name="new-tab-name" placeholder="e.g. Job Info" autofocus /></td></tr></table></form>');
+                modal_set.attr('data-type', 'new-tab').modal();
+            });
+
+            modal_set.on('shown.bs.modal', function () {
+                modal_set.find('input[type="text"]:first').focus();
+            });
+
+            modal_set.on('hide.bs.modal', function(e) {
+                modal_set.find('h4.modal-title, div.modal-body').text('');
+            });
+
+            $(document).on('click', '#settings-modal button.btn-primary', function() {
+
+                if(modal_set.attr('data-type') == 'new-tab') {
+                    var new_tab = modal_set.find('div.modal-body input[type="text"]').val(),
+                        new_tab_id = 'field-tab-' + ($('div.frombox div.panel-body div.tab-content div.tab-pane').length + 1);
+
+                    if(new_tab == '') {
+                        alert('Please enter Tab Name!');
+                        return false;
+                    }
+
+                    $('ul.custTab').append('<li role="presentation" data-default="false" data-id="new"><a href="#'+new_tab_id+'" aria-controls="'+new_tab_id+'" role="tab" data-toggle="tab">'+new_tab+'</a><div class="dropdown dropup"><span data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-angle-down black"></i></span><div class="dropdown-menu dd-options"><span>Select Option</span><ul class="options-list"><li data-action="rename">Rename</li><li data-action="delete">Delete</li></ul></div></div></li>');
+
+                    $('div.panel-body div.tab-content').append('<div id="'+new_tab_id+'" role="tabpanel" class="tab-pane"><div class="row"><div class="col-lg-6 col-md-6 col-sm-6 border-right"><ul class="list-unstyled setting-fields-list empty-list"></ul></div><div class="col-lg-6 col-md-6 col-sm-6"><ul class="list-unstyled setting-fields-list empty-list"></ul></div></div></div>');
+
+                    $('#'+new_tab_id+' ul.setting-fields-list').sortable(sortable_options);
+                    $('div.left-button-area button').draggable('option', 'connectToSortable', $('div.frombox ul.setting-fields-list'));
+
+                    $('a[href="#'+new_tab_id+'"]').tab('show');
+                } else if(modal_set.attr('data-type') == 'field') {
+
+                    var label = modal_set.find('div.modal-body div:first input[type="text"]').val(),
+                        options = modal_set.find('div.modal-body div.field_options p');
+                    console.log(options);
+
+
+                    window.field_li.find('div.row div:first input[type="text"]').val(label);
+
+                    var fe = window.field_li.find('div.form-element');
+                    fe.html('');
+                    options.each(function(i) {
+                        console.log(i)
+                        fe.append('<p>'+$(this).find('input[type="text"]').val()+'</p>');
+                    });
+
+                    window.field_li = undefined;
+                }
+                modal_set.modal('hide');
+            });
+
+            $(document).on('shown.bs.tab', 'ul.custTab a[data-toggle="tab"]', function(e) {
+                var ths = $(this);
+                $('div.frombox div.panel-heading h1').html(this.innerHTML);
+
+                unused.find('div[class^="uf-"]').hide();
+
+                if(unused.find('div.uf-'+ths.attr('aria-controls')+' button[data-tab="'+ths.attr('aria-controls')+'"]').length != 0) {
+                    unused.removeClass('empty-list').find('div.uf-'+ths.attr('aria-controls')).show();
+                } else {
+                    unused.addClass('empty-list');
+                }
+                set_height($('div.tab-content div.tab-pane.active > div.row > div:first-child'), $('div.tab-content div.tab-pane.active > div.row > div:last-child'));
+            });
+            $('ul.custTab li:first a[role="tab"]').tab('show');
+
+            $('ul.custTab').sortable({
+                containment: 'parent',
+                tolerance: 'pointer',
+                items: '> li:not(.unsortable)',
+                start: function(event, ui) {
+                   ui.item.css({'width': ui.item.width()+2});
+                },
+                stop: function(event, ui) {
+                    //alert("New position: " + ui.item.index());
+                    //var tab_data_id = $('ul.custTab li a[role="tab"][href="#'+$(this).attr('id')+'"]').attr('data-id');
+                    var tab_field_div_id = $(ui.item).find('a').attr('aria-controls');
+                    $("#"+tab_field_div_id+"").attr("display-position",ui.item.index());
+                }
+            });
+
+            $(document).on('click', 'button.delete-field:not(.disabled)', function() {
+                var li = $(this).closest('li'),
+                    type = li.attr('data-type'),
+                    df_id = $('ul.custTab > li a[aria-controls="'+li.closest('div.tab-pane').attr('id')+'"]').closest('li').attr('data-id');
+
+                if(li.attr('data-default') == 'true') {
+
+                    unused.removeClass('empty-list');
+                    var btn = '<button class="btn btn-default deleted" data-type="'+li.attr('data-type')+'" data-default="'+li.attr('data-default')+'" data-id="'+li.attr('data-id')+'" data-tab="'+li.closest('div.tab-pane').attr('id')+'"><i class="'+icons[type]+'-icon-sprite"></i>'+li.find('div.row div:first input[type="text"]').val()+'</button>';
+
+                    if(unused.find('div.uf-'+li.closest('div.tab-pane').attr('id')).length == 0) {
+                        unused.append($('<div class="uf-'+li.closest('div.tab-pane').attr('id')+' clearfix"></div>'));
+                    }
+                    var unused_tab_btn = unused.find('div.uf-'+li.closest('div.tab-pane').attr('id'));
+
+                    unused_tab_btn.append(btn).find('button.deleted').draggable({
+                        cancel: false,
+                        connectToSortable: $('div.frombox ul.setting-fields-list'),
+                        cursor: 'move',
+                        helper: function() {
+                            return li.addClass('drag_helper');
+                        },
+                        zIndex: 100,
+                        start: function(event, ui) {
+                            $(this).hide();
+                            if(this.parentElement.childElementCount == 2) {
+                                this.parentElement.parentElement.classList.add('empty-list');
+                            }
+                        },
+                        stop: function(event, ui) {
+                            var btn_dragged = ui.helper.closest('div.clearfix').find('button[data-id="'+ ui.helper.attr('data-id') +'"]');
+                            if(btn_dragged.length) {
+                                btn_dragged.show().closest('div.panel-body').removeClass('empty-list');
+                            }
+                        }
+                    }).removeClass('deleted');
+                    $('a[href="#unused_fields"]').tab('show');
+
+                    if(!deleted.unused.hasOwnProperty(df_id)) {
+                        deleted.unused[df_id] = [li.attr('data-id')];
+                    } else {
+                        deleted.unused[df_id].push(li.attr('data-id'));
+                    }
+
+                } else {
+                    if(li.attr('data-id') != 'new') {
+                        if(!deleted.fields.hasOwnProperty(df_id)) {
+                            deleted.fields[df_id] = [li.attr('data-id')];
+                        } else {
+                            deleted.fields[df_id].push(li.attr('data-id'));
+                        }
+                    }
+                }
+                li.remove();
+            });
+
+            $(document).on('click', 'ul.custTab ul.options-list li', function() {
+                var tab_li = $(this).closest('li[role="presentation"]'),//[data-default="false"]
+                    action = $(this).attr('data-action');
+
+                if(tab_li.attr('data-default') == 'true' && action == 'delete') {
+                    return false;
+                }
+                if(action == 'delete') {
+                    if(confirm("Are you sure want to delete?")) {
+                        if (tab_li.hasClass('active')) {
+                            tab_li.prev().find('a').tab('show');
+                        }
+                        $(tab_li.find('a').attr('href')).remove();
+                        if (tab_li.attr('data-id') != 'new') {
+                            deleted.tabs.push(tab_li.attr('data-id'));
+                        }
+                        tab_li.remove();
+                    }
+                } else if(action == 'rename') {
+                    $('ul.custTab li[role="presentation"] a').removeAttr('contenteditable');
+                    tab_li.find('a').attr('contenteditable', true).blur().focus();
+                }
+            });
+            $(document).on('keydown', 'ul.custTab li[role="presentation"] a', function(e) {
+                if([13, 27].indexOf(e.keyCode || e.charCode || e.which) != -1) {
+                    $(this).removeAttr('contenteditable').text($(this).text().trim());
+                }
+            });
+            $(document).on('keyup', 'ul.custTab li[role="presentation"].active a', function(e) {
+                $('div.frombox div.panel-heading h1').html(this.innerHTML);
+            });
+
+            $(document).on('click', '#save-all:not(.disabled)', function() {
+                $(this).addClass('disabled').blur();
+                var tabs = $('ul.custTab > li'),
+                    all_fields = {},
+                    counter;
+                //var data_temp = [];
+                tabs.each(function(i, tab_li) {
+                    tab_li = $(tab_li);
+                    temp = {
+                        'id': tab_li.attr('data-id'),
+                        'is_default': tab_li.attr('data-default'),
+                        'label': tab_li.find('a[role="tab"]').text(),
+                        'position': (i+1)
+                    };
+
+                    //temp['fields'] = {};
+                    temp['deleted_fields'] = deleted.fields[temp.id];
+                    temp['unused_fields'] = deleted.unused[temp.id];
+                    counter = 1;
+                    var test = [];
+                    temp.tabFields = test
+                    $('#'+tab_li.find('> a').attr('aria-controls')).find('div.row div').each(function(i) {
+                        if(i == 0) {
+                            dir = 'left';
+                        } else {
+                            dir = 'right';
+                        }
+                        $(this).find('li[data-type]').each(function(i, ele) {
+                            ele = $(ele);
+                            if(ele.find('div.form-element p').length != 0) {
+                                options = {};
+                                option_value=[];
+                                ele.find('div.form-element p').each(function(i) {
+                                    options[i] = this.innerText;
+                                    option_value.push(this.innerText);
+                                });
+                            } else {
+                                options = 'false';
+                                option_value=[];
+                            }
+                            if(ele.attr('data-id') !==0 || ele.attr('data-id') !=='0'){
+                                var field = {
+                                    'id': ele.attr('data-id'),
+                                    'type': ele.attr('data-type'),
+                                    'default': ele.attr('data-default'),
+                                    'is_required': ele.find('div.row div:first').hasClass('required').toString(),
+                                    'label': ele.find('input[type="text"]').val(),
+                                    'options': option_value,
+                                    'direction': dir
+                                };
+                                test.push(field)
+                            }
+                            counter++;
+                        });
+                    });
+                    all_fields['tab-'+(i+1)] = temp;
+                });
+                all_fields['deleted-tabs'] = deleted.tabs;
+                console.log(JSON.stringify(all_fields));
+                $.ajax({
+                        type: "POST",
+                        async: false,
+                        url: '/layoutsetting/',
+                        dataType: "json",
+                        data: {
+                           ajax: true,
+                           post_data: JSON.stringify(all_fields),
+                           csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        beforeSend: function () {
+                            $('#save-all').addClass('disabled').blur();
+                        },
+                        success: function (data) {
+                           if(data.success === true || data.success === 'true'){
+                                all_fields = {}
+                                $('#save-all').removeClass('disabled');
+                                var noti_error = false;
+                                 reload_window = false;
+
+                                show_notification(data.msg)
+                                setInterval( () => {
+                                    window.location.reload(true)
+                                },2000)
+                           }
+                        }
+
+                    });
+                //show_notification('All settings have been saved.', 'msg');
+            });
+
+
+               window.onbeforeunload = function () {
+                   alert(reload_window)
+                   if(reload_window) {
+                       return "Leaving this page will reset the wizard";
+                   }
+               };
+
+        });
+    </script>
+
+    <div class="notification-container notification-container-empty" id="n_container"></div>
+</body>
+
+</html>
+{# empty Twig template #}

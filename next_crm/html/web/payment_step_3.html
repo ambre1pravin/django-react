@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pricing | Saalz</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+    <link rel="stylesheet" href="/static/front/css/styles.css" />
+   <!-- <link rel="stylesheet" href="/static/front/css/pricing.css" />-->
+</head>
+<body>
+<div>
+    <div id="crm-app" class="clearfix module__pricing">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-default clearfix">
+                        <h2>Next CRM Online Pricing</h2>
+                        <ul class="payment-steps clearfix pull-right">
+                            <li class="finished"><span class="done-mark"><svg viewBox="0 0 32 32"><polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon></svg></span> <a href="/payment_step_1/" title="Back to Company Information">Company Information</a></li>
+                            <li class="finished"><span class="done-mark"><svg viewBox="0 0 32 32"><polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon></svg></span> <a href="/payment_step_2/" title="Back to Select Users &amp; Applications">Select Users &amp; Applications</a></li>
+                            <li class="active"><span class="done-mark"><svg viewBox="0 0 32 32"><polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon></svg></span> Payment Information</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                <div class="panel panel-default clearfix">
+                <h3>Payment Information</h3>
+                <div class="payment-info-box">
+                    <div class="pay_top">
+                        <img src="/static/front/images/secure-checkout.png" alt="secure-checkout">
+                        <img src="/static/front/images/money-back-guaranteed.png" alt="money-back-guaranteed">
+                    </div>
+                <form action="/paymentProcess/" method="POST" autocomplete="off" id="payment-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="apps" value={{prices.apps}}>
+                    <input type="hidden" name="total_user" value="{{prices.total_user}}"/>
+                    <input type="hidden" name="plan_type" value="{{prices.plan_type}}" />
+                    <input type="hidden" name="discount" value="{{prices.discount}}" />
+                    <input type="hidden" name="total_cost" value="{{prices.total_cost}}" name="total_cost" />
+                    <input type="hidden" name="is_vat_will_charge" value="{{prices.is_vat_will_charge}}" id="is_vat_will_charge" />
+                    <input type="hidden" name="vat_charge" value="{{prices.vat_charge}}" id="vat_charge" />
+
+                    <span class="payment-errors text-primary"></span>
+                    <h4>Credit Card Details</h4>
+                    <div class="pay_detail">
+                        <input type="text" name="card_number" maxlength="16" minlength="16" placeholder="16 digit card numner" value="" data-stripe="number"/><input type="text" name="card_cvc" placeholder="CVC" value="" data-stripe="cvc"/>
+                    </div>
+                    <div class="pay_detail">
+                        <select name="card_month" data-stripe="exp_month">
+                            <option value="01">January (01)</option>
+                            <option value="02">February (02)</option>
+                            <option value="03">March (03)</option>
+                            <option value="04">April (04)</option>
+                            <option value="05">May (05)</option>
+                            <option value="06">June (06)</option>
+                            <option value="07">July (07)</option>
+                            <option value="08">August (08)</option>
+                            <option value="09">September (09)</option>
+                            <option value="10">Octomber (10)</option>
+                            <option value="11">November (11)</option>
+                            <option value="12">December (12)</option>
+                        </select><select name="card_year" data-stripe="exp_year">
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg">Get Started Now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+
+                </form>
+                    <div class="pay_bottom">
+                        <img src="/static/front/images/credit-cards.png" alt="credit-cards" height="20">
+                        <small>100% safe &amp; secure</small>
+                    </div>
+                </div>
+                </div>
+            </div>
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                    <div class="panel panel-default">
+    <div class="summary">
+        <div class="counting">
+            <h3>Subscription</h3>
+            <div class="pl_users">
+                <strong id="pl_total_users">{{prices.total_user}}</strong> Users
+                <span class="pull-right"><span id="pl_total_users_cost">{{prices.total_user_cost}}</span> EUR</span>
+            </div>
+            <div class="pl_apps" data-toggle="tooltip" data-placement="top" title="CRM">
+                <strong id="pl_total_apps">{{prices.total_apps}}</strong> Apps
+                <span class="pull-right"><span id="pl_total_apps_cost">{{prices.total_app_price}}</span> EUR</span>
+            </div>
+            {% if prices.is_vat_will_charge   %}
+            <div class="pl_apps">
+                VAT <small>(20%)</small>
+                <span class="pull-right"><span id="pl_vat">{{prices.vat_charge}}</span> EUR</span>
+            </div>
+            {% endif %}
+            <div class="pl_total_cost">
+                <strong>Total</strong> / <span id="period_txt">month</span>
+                <strong class="pull-right"><span id="pl_cost_money">{{prices.total_cost}}</span> EUR</strong>
+            </div>
+        </div>
+        <h3>What you get?</h3>
+        <ul class="short-features">
+            <li>Unlimited Contact</li>
+            <li>Unlimited Documents</li>
+            <li>Premium support</li>
+            <li>No long Term Contracts (Cancel Any time)</li>
+            <li>30-Day Money back guarantee</li>
+            <li>All new up coming features</li>
+        </ul>
+    </div>
+                </div>
+                </div>
+        <div class="testimonials col-xs-12 col-ms-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-default">
+        <h3>Customers' <strong>Feedback</strong></h3>
+        <div class="row">
+            <div class="col-xs-12 col-ms-6 col-sm-6 col-md-6 col-lg-4">
+            <div class="testi">
+                <div class="testi-head clearfix">
+                    <img src="/static/front/images/avatar/9.png" alt="Customer" class="img-circle">
+                    <div class="pull-left">
+                        <h4>Customer</h4>
+                        <p class="position">CEO, Some Company</p>
+                    </div>
+                </div>
+                <div class="testi-content">
+                    <p class="fa fa-quote-right">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+                </div>
+            </div>
+            </div>
+            <div class="col-xs-12 col-ms-6 col-sm-6 col-md-6 col-lg-4">
+            <div class="testi">
+                <div class="testi-head clearfix">
+                    <img src="/static/front/images/avatar/4.png" alt="Customer" class="img-circle">
+                    <div class="pull-left">
+                        <h4>Customer</h4>
+                        <p class="position">CEO, Some Company</p>
+                    </div>
+                </div>
+                <div class="testi-content">
+                    <p class="fa fa-quote-right">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+                </div>
+            </div>
+            </div>
+            <div class="col-xs-12 col-ms-6 col-sm-6 col-md-6 col-lg-4">
+            <div class="testi">
+                <div class="testi-head clearfix">
+                    <img src="/static/front/images/avatar/7.png" alt="Customer" class="img-circle">
+                    <div class="pull-left">
+                        <h4>Customer</h4>
+                        <p class="position">CEO, Some Company</p>
+                    </div>
+                </div>
+                <div class="testi-content">
+                    <p class="fa fa-quote-right">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript" src="/static/front/javascripts/jquery-min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/notify.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/common.min.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript">
+      Stripe.setPublishableKey('{{stripe_key}}');
+    </script>
+    <script>
+        $(function() {
+      var $form = $('#payment-form');
+      $form.submit(function(event) {
+        // Disable the submit button to prevent repeated clicks:
+        $form.find('.submit').prop('disabled', true);
+
+        // Request a token from Stripe:
+        Stripe.card.createToken($form, stripeResponseHandler);
+
+        // Prevent the form from being submitted:
+        return false;
+      });
+    });
+
+    function stripeResponseHandler(status, response) {
+      // Grab the form:
+      var $form = $('#payment-form');
+
+      if (response.error) { // Problem!
+
+        // Show the errors on the form:
+        $form.find('.payment-errors').text(response.error.message);
+        $form.find('.submit').prop('disabled', false); // Re-enable submission
+
+      } else { // Token was created!
+
+        // Get the token ID:
+        var token = response.id;
+
+        // Insert the token ID into the form so it gets submitted to the server:
+        $form.append($('<input type="hidden" name="stripeToken">').val(token));
+
+        // Submit the form:
+        $form.get(0).submit();
+      }
+    };
+    </script>
+
+</body>
+</html>

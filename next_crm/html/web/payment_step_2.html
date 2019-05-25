@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pricing | Saalz</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+    <link rel="stylesheet" href="/static/front/css/styles.css" />
+</head>
+<body>
+<div>
+    <div id="crm-app" class="clearfix module__pricing">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-default clearfix">
+                        <h2>Next CRM Online Pricing</h2>
+                        <ul class="payment-steps clearfix pull-right">
+                            <li class="finished"><span class="done-mark"><svg viewBox="0 0 32 32"><polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon></svg></span> <a href="/payment_step_1/" title="Back to Company Information">Company Information</a></li>
+                            <li class="active"><span class="done-mark"><svg viewBox="0 0 32 32"><polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon></svg></span> <a href="/payment_step_2/" title="Back to Select Users &amp; Applications">Select Users &amp; Applications</a></li>
+                            <li><span class="done-mark"><svg viewBox="0 0 32 32"><polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon></svg></span> Payment Information</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% if vat_charge  %}
+            <div class="alert alert-danger fade in alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                Your VAT number is not correct, we have to charge  {{vat_percent_percent}} %  VAT, if you want to be charged tax free, <a href="/payment_step_1/">click here</a> to go back to previous step and fill once again your VAT number.
+            </div>
+            {% endif %}
+            <div class="row">
+            <form  action="/payment_step_3/" method="post">
+                {% csrf_token %}
+                <input type ="hidden" id="user_monthly_price" value="{{prices.user_0_percent_monthly_price}}" />
+                <input type ="hidden" id="discount" value="{{prices.discount}}" name="discount" />
+                <input type ="hidden" id="hidden_total_cost" value="" name="total_cost" >
+                <input type="hidden" name="is_vat_will_charge" value="{{vat_charge}}" id="is_vat_will_charge" />
+                <input type="hidden" name="vat_charge" value="" id="vat_charge" />
+
+                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                    <div class="panel panel-default">
+                    <h3>Choose the number of <strong>Users</strong></h3>
+                    <div class="pricing-users clearfix">
+                        <div>
+                            <input type="hidden" value="13.00" id="p_per_user">
+                            <input type="number" min="1" value="1" id="p_users" name="user"/><span class="p_users_lbl text-center">Users x <span id="p_per_user-display"></span> EUR / <i class="month"></i></span>
+                        </div>
+                        <div class="bill-options">
+        <ul>
+            <li><label><input type="radio" name="_period" value="yearly" checked="true" /> Billed Yearly <strong >(save {{prices.discount}}%)</strong></label></li>
+            <li><label><input type="radio" name="_period" value="monthly" /> Billed Monthly</label></li>
+        </ul>
+                        </div>
+                    </div>
+                    <h3>Choose your <strong>Apps</strong></h3>
+                    <div class="app-listing">
+    <div class="row">
+        <div class="col-xs-12 col-ms-6 col-sm-6 col-md-4 col-lg-4" data-app="crm">
+            <div class="row" data-requires="contact, calendar">
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                    <label class="clearfix">
+                        <i class="fa fa-th"></i>
+                        <div class="app-costing">
+                            <p class="app-name">CRM <i class="fa fa-link" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Includes: Contact, Calendar"></i></p>
+                            <p class="app-price"><span>5.0</span> EUR / <i class="month"></i></p>
+                            <input type="hidden" value="5" class="p_a_price" />
+                        </div>
+                    </label>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <input type="checkbox" id="app-crm" name="apps" value="crm" selected="selected"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-ms-6 col-sm-6 col-md-4 col-lg-4" data-app="sales">
+            <div class="row" data-requires="quotations, invoice">
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                    <label for="app-sales" class="clearfix">
+                        <i class="icon-sales"></i>
+                        <div class="app-costing">
+                            <p class="app-name">Sales <i class="fa fa-link" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Includes: Quotations, Invoice"></i></p>
+                            <p class="app-price"><span>9.0</span> EUR / <i class="month"></i></p>
+                            <input type="hidden" value="9" class="p_a_price" />
+                        </div>
+                    </label>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <input type="checkbox" id="app-sales" name="apps" value="sales"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-ms-6 col-sm-6 col-md-4 col-lg-4" data-app="opportunity">
+            <div class="row" data-requires="">
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                    <label for="app-opportunity" class="clearfix">
+                        <i class="icon-opportunity"></i>
+                        <div class="app-costing">
+                            <p class="app-name">Opportunity</p>
+                            <p class="app-price"><span>3.0</span> EUR / <i class="month"></i></p>
+                            <input type="hidden" value="3" class="p_a_price" />
+                        </div>
+                    </label>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <input type="checkbox" id="app-opportunity"  name="apps" value="opportunity"/>
+                </div>
+            </div>
+        </div>
+    </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                    <div class="panel panel-default">
+    <div class="summary">
+        <div class="counting">
+            <h3>Subscription</h3>
+            <div class="pl_users">
+                <strong id="pl_total_users">1</strong> Users
+                <span class="pull-right"><span id="pl_total_users_cost">0</span> EUR</span>
+            </div>
+            <div class="pl_apps">
+                <strong id="pl_total_apps">0</strong> Apps
+                <span class="pull-right"><span id="pl_total_apps_cost">0</span> EUR</span>
+            </div>
+            {% if vat_charge  %}
+            <div class="pl_apps">
+                VAT <small>({{vat_percent_percent}}%)</small>
+                <span class="pull-right"><span id="pl_vat">0</span> EUR</span>
+            </div>
+            {% endif %}
+            <div class="pl_total_cost">
+                <strong>Total</strong> / <span id="period_txt">year</span>
+                <strong class="pull-right"><span id="pl_cost_money">0</span> EUR</strong>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Start Now</button>
+        <h3>What you get?</h3>
+        <ul class="short-features">
+            <li>Unlimited Contact</li>
+            <li>Unlimited Documents</li>
+            <li>Premium support</li>
+            <li>No long Term Contracts (Cancel Any time)</li>
+            <li>30-Day Money back guarantee</li>
+            <li>All new up coming features</li>
+        </ul>
+    </div>
+                </div>
+                </div>
+        </form>
+        <div class="testimonials col-xs-12 col-ms-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-default">
+        <h3>Customers' <strong>Feedback</strong></h3>
+        <div class="row">
+            <div class="col-xs-12 col-ms-6 col-sm-6 col-md-6 col-lg-4">
+            <div class="testi">
+                <div class="testi-head clearfix">
+                    <img src="/static/front/images/avatar/9.png" alt="Customer" class="img-circle">
+                    <div class="pull-left">
+                        <h4>Customer</h4>
+                        <p class="position">CEO, Some Company</p>
+                    </div>
+                </div>
+                <div class="testi-content">
+                    <p class="fa fa-quote-right">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+                </div>
+            </div>
+            </div>
+            <div class="col-xs-12 col-ms-6 col-sm-6 col-md-6 col-lg-4">
+            <div class="testi">
+                <div class="testi-head clearfix">
+                    <img src="/static/front/images/avatar/4.png" alt="Customer" class="img-circle">
+                    <div class="pull-left">
+                        <h4>Customer</h4>
+                        <p class="position">CEO, Some Company</p>
+                    </div>
+                </div>
+                <div class="testi-content">
+                    <p class="fa fa-quote-right">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+                </div>
+            </div>
+            </div>
+            <div class="col-xs-12 col-ms-6 col-sm-6 col-md-6 col-lg-4">
+            <div class="testi">
+                <div class="testi-head clearfix">
+                    <img src="/static/front/images/avatar/7.png" alt="Customer" class="img-circle">
+                    <div class="pull-left">
+                        <h4>Customer</h4>
+                        <p class="position">CEO, Some Company</p>
+                    </div>
+                </div>
+                <div class="testi-content">
+                    <p class="fa fa-quote-right">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript" src="/static/front/javascripts/jquery-min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/notify.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/common.js"></script>
+    <script type="text/javascript">
+
+        var _period = 'yearly',
+            discount = '{{prices.discount}}',
+            first_count = true,
+            monthly_per_user = Math.round($('#p_per_user').val() * 100) / 100,
+            default_apps = ['crm'],
+            init_apps = true
+            user_monthly_price =$('#user_monthly_price').val();
+
+        var discounted_price = (user_monthly_price - user_monthly_price * (discount/100));
+
+        function count_per_cost() {
+            console.log(monthly_per_user);
+            if(_period == 'monthly' && !first_count) {
+                $('#p_per_user').val(monthly_per_user);
+                $('#p_per_user-display').text(user_monthly_price);
+                $('div.app-listing div[data-app]').each(function() {
+                    var ths = $(this),
+                        app_cost = Math.round(ths.find('input.p_a_price').val() * 100) / 100,
+                        app_cost_new = Math.round((app_cost / (1 - (discount/100))) * 100) / 100;
+
+                    ths.find('input.p_a_price').val(app_cost_new);
+                    ths.find('p.app-price span').text(app_cost_new);
+                });
+
+            } else if(_period == 'yearly') {
+                $('#p_per_user-display').text(discounted_price);
+                $('div.app-listing div[data-app]').each(function() {
+                    var ths = $(this),
+                        app_cost = Math.round(ths.find('input.p_a_price').val() * 100) / 100,
+                        app_cost_new = Math.round((app_cost - ((discount/100) * app_cost)) * 100) / 100;
+                    ths.find('input.p_a_price').val(app_cost_new);
+                    ths.find('p.app-price span').text(app_cost_new);
+                });
+            }
+            first_count = false;
+        }
+        count_per_cost();
+
+        function count_cost() {
+
+            var total_apps = 0, total_user_cost = 0, total_apps_cost = 0;
+            total_user_cost = Math.round(parseInt($('#p_users').val())*(Math.round($('#p_per_user').val() * 100) / 100) * 100) / 100;
+
+            var total_selected_user = $('#p_users').val()
+            $('#pl_total_users').html(total_selected_user);
+            $('div.app-listing div[data-app]').each(function(i, app) {
+                app = $(app);
+                if(app.find('input[type="checkbox"]').is(':checked')) {
+                    total_apps++;
+                    total_apps_cost += (Math.round(app.find('input.p_a_price').val() * 100) / 100);
+                }
+            });
+            $('#pl_total_apps').html(total_apps);
+
+
+            var total_cost = (Math.round((total_user_cost+total_apps_cost) * 100) / 100);
+
+
+
+            if(_period == 'monthly') {
+                $('#pl_total_users_cost').html((total_user_cost).toFixed(2));
+                $('#pl_total_apps_cost').html(total_apps_cost.toFixed(2) );
+                $('#pl_cost_money').html(parseFloat( $('#pl_total_users_cost').text() ) + parseFloat($('#pl_total_apps_cost').text()).toFixed(2));
+                $('#hidden_total_cost').val($('#pl_cost_money').text())
+            } else if(_period == 'yearly') {
+                $('#pl_total_users_cost').html((total_selected_user * discounted_price *12).toFixed(2) );
+                $('#pl_total_apps_cost').html((total_apps_cost * 12).toFixed(2) );
+                $('#pl_cost_money').html( parseFloat( $('#pl_total_users_cost').text() ) + parseFloat($('#pl_total_apps_cost').text()).toFixed(2));
+                $('#hidden_total_cost').val($('#pl_cost_money').text())
+            }
+            {% if vat_charge  %}
+                var net_cost = $('#pl_cost_money').text()
+                //alert(net_cost)
+                $('#pl_vat').html(percentage(net_cost))
+                $('#pl_cost_money').html( ( parseFloat(net_cost) + Math.round((percentage(net_cost)) * 100) / 100).toFixed(2));
+                $('#vat_charge').val(percentage(net_cost))
+                $('#hidden_total_cost').val($('#pl_cost_money').text())
+            {% endif %}
+            $('.month').text(_period)
+        }
+        count_cost();
+
+        $('#p_users').on('keyup mouseup', count_cost);
+
+        function get_requires(app) {
+            var requires = [];
+            $.each($('div.app-listing div.row[data-requires]'), function(i, s) {
+                if(s.getAttribute('data-requires') != '') {
+                    if(s.getAttribute('data-requires').toLowerCase().indexOf(app) > -1) {
+                        requires.push($(s).closest('div[class^="col-"]').attr('data-app').toLowerCase());
+                    }
+                }
+            });
+            return requires;
+        }
+        $('div.app-listing input[type="checkbox"]').change(function() {
+            var app = $(this).closest('div.row[data-requires]'),
+            requires = app.attr('data-requires'),
+            data_app = app.closest('div[data-app]').attr('data-app');
+
+            if(default_apps.indexOf(data_app) < 0 || init_apps) {
+                if(requires != '') {
+                    requires = requires.replace(/[\s,]+/g, ',').split(',');
+                } else {
+                    requires = [];
+                }
+
+                if(!app.hasClass('selected')) {
+                    app.addClass('selected');
+                    $.each(requires, function(i, r) {
+                        $('#app-'+r).prop('checked', true).closest('div.row[data-requires]').addClass('selected');
+                    });
+                } else {
+                    app.removeClass('selected');
+                    tobe_removed = get_requires(app.closest('div[class^="col-"]').attr('data-app').toLowerCase());
+                    $.each(tobe_removed, function(i, r) {
+                        $('#app-'+r).prop('checked', false).closest('div.row[data-requires]').removeClass('selected');
+                    });
+                }
+                count_cost();
+            }
+        });
+        $('div.bill-options input[name="_period"]').change(function() {
+            _period = $(this).val().toLowerCase();
+            $('#period_txt').text(_period.replace('ly', ''));
+            count_per_cost();
+            count_cost();
+        });
+        $.each(default_apps, function(i, app) {
+            var da = $('div.app-listing [data-app="'+app+'"]'),
+                da_sub = da.find('div.row[data-requires]').attr('data-requires').split(',');
+            da.find('input[type="checkbox"]').click();
+            da.find('label, input[type="checkbox"]').click(function() {
+                return false;
+            });
+            $.each(da_sub, function(i, a) {
+                $('div.app-listing [data-app="'+a.trim()+'"]').find('label, input[type="checkbox"]').click(function() {
+                    return false;
+                });
+            });
+        });
+        init_apps = false;
+
+        $('form').submit(function() {
+            var noti_error = false;
+            if($('div.app-listing input[type="checkbox"]:checked').length) {
+                $(document).find('div.notifyjs-corner > div').hide();
+            } else {
+                noti_error = notification('You have to select at least one module to use our solution', 'error');
+                return false;
+            }
+        });
+
+        function percentage(num)
+        {   var percent = '{{vat_percent_value}}';
+            var per = (parseFloat(num)/100)*parseFloat(percent) * 100;
+            return  Math.round(per * 100) / 100
+        }
+    </script>
+</body>
+</html>
+

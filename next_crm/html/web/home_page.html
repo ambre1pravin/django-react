@@ -1,0 +1,247 @@
+ <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+ <html>
+     <head>
+         <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Online Statement | Saalz</title>
+
+         <style type="text/css">
+
+        .panel-title{
+            height: 50px;
+        }
+        body {
+                 font-weight: 300;
+                 font-size: 13px;
+             }
+    
+       .panel-body {
+          /*  padding: 5px;*/
+        }
+       .panel-heading {
+
+            border-bottom: 1px solid #ddd;
+        }
+        div.panel{
+            color:#777;
+            margin-top:60px
+        }
+        div.panel.panel-default>.panel-heading{
+            background-color:#fff
+        }
+        div.panel h3.profile img{
+            height: 50px
+        }
+        div.panel.panel-body{
+            padding:0 0 100px
+        }
+       h1,h2{
+            font-weight:bold
+        }
+        ul,ol{
+            margin:20px
+        }
+        thead th,strong{
+            color:#555
+        }
+        table th,table td{
+            padding:5px 0;
+            vertical-align:top;
+            word-break:break-all
+        }
+        h1.quatation-name{
+            color:#df2873;
+            margin:30px 50px 20px
+        }
+           table.quotation-detail
+        {
+            float:left;
+            margin:0 50px;
+            /*width:calc(50% - 100px)*/
+        }
+        table.quotation-detail td:first-child{
+            color:#555;
+            font-weight:bold;
+            padding-right:30px;
+            word-break:normal
+        }
+        h2.product-service-head{
+            border-top:1px solid #ddd;
+            border-bottom:1px solid #ddd;
+            color:#555;
+            font-size:20px;
+            margin:30px 0 20px;
+            padding:5px 15px
+        }
+        table.products{
+            margin:30px 0 20px;
+            width:100%
+        }
+        table.products tr{
+            border-bottom:1px solid #ddd
+        }
+        table.products th:first-child,table.products td:first-child{
+            /*padding-left:10px*/
+        }
+        table.products th:nth-last-child(2),table.products td:nth-last-child(2){
+            width:120px
+        }
+        table.products th:last-child,table.products td:last-child{
+            padding-right:10px;
+            text-align:right;
+            width:150px
+        }
+        table.products td:first-child{
+            color:#df2873
+        }
+        /*.total-box span{
+            float:right
+        }
+        div.total-box{
+            margin-right:50px;
+            margin-bottom:30px;
+            width:250px;
+            float:right
+        }
+        div.total-box span{
+            float:right
+        }
+        div.total-box p{
+            line-height:2;
+            margin:0;
+            padding:0 5px;
+            float:right;
+        }
+        div.total-box p:last-child{
+            border-top:1px solid #aaa;
+            border-bottom:1px solid #aaa;
+            color:#555;
+            font-weight:bold
+        }*/
+        .total{
+            border-top:5px solid #aaa;
+            border-bottom:5px solid #aaa;
+            color:#555;
+            font-weight:bold;
+            padding-top: 10px;
+            margin-right: 10px
+        }
+        .total-box1{
+            float: right;
+        }
+       /* div.text-box{
+            margin:10px 50px 20px
+        }*/
+
+         </style>
+     </head>
+     <body>
+            <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><img src="http://localhost:8000/static/front/images/profile.png" alt="logo"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your Quotation {{name}}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h1 class="quatation-name"></h1>
+                        <table class="quotation-detail">
+                            <tr>
+                                <td>Customer:</td>
+                                <td>{{customer_name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Bill To:</td>
+                                <td>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="quotation-detail">
+                            <tr>
+                                <td>Your Contact:</td>
+                                <td>{{customer_email}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Quote Date:</td>
+                                <td>{{order_date}}</td>
+                            </tr>
+                            <tr>
+                                <td>Expiration Date:</td>
+                                <td>{{expiration_date}}</td>
+                            </tr>
+                        </table>
+                        <div class="clearfix"></div>
+                        <h2 class="product-service-head">Product and Services</h2>
+                        <table class="products">
+                            <thead>
+                                <tr>
+                                    <th>Products</th>
+                                    <th>Quantity</th>
+                                    <th>Unit of Measure</th>
+                                    <th>Unit Price</th>
+                                    <th>Taxes</th>
+                                    <th>Discount (%)</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pro in products %}
+                                <tr>
+
+                                    <td>{{pro.product_name}}</td>
+                                    <td>{{pro.product_qty}}</td>
+                                    <td>{{pro.product_uom_name}}</td>
+                                   <td>{{pro.unit_price}}</td>
+                                    <td>{{pro.product_tax_name}}</td>
+                                    <td>{{pro.discount}}</td>
+                                   <td>{{pro.price_subtotal}}</td>
+                                </tr>
+                        {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="total-box1">
+                            <p><strong>Subtotal:</strong><span>{{amount_untaxed}}</span></p>
+                            <p><strong>Taxes:</strong><span>{{tax_amount}}</span></p>
+                            <p class ="total"><strong>Total:</strong><span>{{total_amount}}</span></p>
+                        </div>
+                        <div class="clearfix"></div>
+                        <h2 class="product-service-head">Optional Products</h2>
+                        <table class="products">
+                            <thead>
+                                <tr>
+                                    <th>Products</th>
+                                    <th>Quantity</th>
+                                    <th>Unit of Measure</th>
+                                    <th>Unit Price</th>
+                                    <th>Discount (%)</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                             {% for pro in optional_products %}   
+                                <tr>
+                                    <td>{{pro.product_name}}</td>
+                                    <td>{{pro.product_qty}}</td>
+                                    <td>{{pro.product_uom_name}}</td>
+                                    <td>{{pro.unit_price}}</td>
+                                    <td>{{pro.discount}}</td>
+                                   <td>&nbsp;</td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                        <div class="text-box">
+                           {{notes}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     </div>
+     </body>
+ </html>

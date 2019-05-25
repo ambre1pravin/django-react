@@ -1,0 +1,4 @@
+Name;Email;Phone;Mobile;Street;Street2;City;Zip;Country;Is Vendor;Is Customer;Contact Type;Site Internet;Poste;Fax;La langue;Le genre;Notes internes;Mots clés
+Contact 3;contact3@mail.com;258632585;741259636;Rue de la république;;Lyon;69001;France;False;True;;;;;;;;
+Contact 2;contact2@mail.com;414742596;625417858;58 avenue des champs elysée;;Paris;75000;France;False;True;;;;;;;;
+Contact 1;contact1@mail.com;474258214;685251485;14 Rue du gouffre;;Ambérieux ;1500;France;False;True;;;;;;;;

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome to Login</title>
+<link href='/static/front/css/landing.css' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet" type="text/css">
+</head>
+
+<body class="crm-screen1 register-full-form">
+<div class="container-fluid">
+  <div class="row">
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 crm-screen">
+        <div class="crm-screen-block">
+            <div class="crm-screen-content">
+                <div>
+                    <h1><img src="/static/front/images/saalz-small.png" alt="Saalz"> EST LA <strong>NOUVELLE</strong></h1>
+                    <p><strong>SOLUTION CRM</strong> vous permettant de gérer <strong>facilement</strong> votre entreprise au quotidien</p>
+                    <small>Des questions ? Appelez-nous au <a href="tel:0972613199">0 972 613 199</a></small>
+                    <img src="/static/front/images/laptop-black.png" class="hidden-xs">
+                    <p class="hidden-xs">Nous avons conçu SAALZ CRM pour aider les entreprises à se développer grâce à une plateforme complète. Inscrivez-vous pour un essai gratuit de 14 jours.</p>
+                    <ul class="hidden-xs">
+                        <li>Aucune installation de logiciel</li>
+                        <li>Accessible de partout y compris sur mobile</li>
+                        <li>Vendez plus grâce à nos outils</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 crm-signup full-background">
+  <div class="register-form">
+    <h2>INSCRIVEZ-VOUS <strong>GRATUITEMENT</strong></h2>
+    <p>et découvrez notre solution pendant 14 jours</p>
+
+            <form name="user" method="post" action="/register/" id="register-form" class="regiter-form-bg" onsubmit="return validateForm()">
+
+
+                <div class="form-group clearfix">
+                {% if return_status.msg %}
+                  <div class="alert alert-danger">
+                  {{return_status.msg}}
+                  </div>
+                {% endif %}
+                    <input type="text" id="user_first_name" name="first_name" value="{{return_status.first_name}}" required="required" class="form-control" placeholder="First Name*">
+                    <input type="text" id="user_last_name" name="last_name" value="{{return_status.last_name}}" required="required" class="form-control" placeholder="Last Name*">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="user_company_name" value="{{return_status.compnay_name}}" name="compnay_name" required="required" class="form-control" placeholder="Company Name*">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="user_phone_number" value="{{return_status.phone}}" name="phone" required="required" class="form-control" placeholder="Phone Number*">
+                </div>
+                <div class="form-group " id="email_div">
+                    <input type="email" id="user_email" value ="{{return_status.email}}" name="email" required="required" class="form-control" placeholder="Email*" >
+                    <input type="hidden" name="hidden_email" id="hidden_email" value="email@domain.com">
+                </div>
+                <div class="form-group" id="pass_div">
+                    <input type="password" name="password" id="user_password" required="required"  class="form-control" placeholder="Password*">
+                    <br>
+                    <div class="password-message-box" id="password_box">
+                        <label><i class="lock-icon-sprite"></i><span>Your password needs to :</span></label>
+                        <label class="alert alert-danger padding-left" id="suggetion1">be atleast 6 characters long.</label>
+                    </div>
+                </div>
+                <div class="mute-box">
+                    <label><i class="must-icon-sprite"></i><span>For more security you can also :</span></label>
+                    <label class="small" id="suggetion2">put lower and upper case characters.</label>
+                    <label class="small" id="suggetion3">put at least one number or symbol</label>
+                </div>
+                {% csrf_token %}
+                <button class="btn btn-success btn-block" disabled="true" id="submit_button">And you are ready to go!</button>
+
+            </form>
+          <div class="lagacy">
+                <p>Essai gratuit 14 jours - Sans engagement</p>
+                <p>Les informations que vous communiquez sont collectées et traitées exclusivement par SAALZ aux fins de gestion des clients et prospects, dans un contexte strictement professionnel, conformément à la réglementation applicable à la <strong><a href="https://saalz.com/politique-de-confidentialite" title="protection des données">protection des données à caractère personnel</a></strong> et sur la base des intérêts légitimes que nous poursuivons. Elles sont destinées au service Marketing et sont conservées pendant 3 ans. Les informations signalées par un astérisque (*) sont obligatoires. Aucune divulgation ou cession de ces informations n’est réalisée par SAALZ.  Vous pouvez exercer vos droits : accès, rectification, opposition, suppression à l’adresse suivante : <a href="mailto:hello@saalz.com">hello@saalz.com</a> ou par courrier postal 258 Avenue de Lyon 01960 Péronnas.</p>
+            </div>
+
+
+  </div>
+</div>
+    </div>
+  </div>
+<div class="modal fade" id="myModal" tabindex="1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h2 class="modal-title" id="myModalLabel">Log in</h2>
+        <p>Enter your <strong>email address</strong> and <strong>password</strong>.</p>
+      </div>
+      <div class="modal-body">
+        <form action="/login/" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <input placeholder="name@company.com" class="form-control" type="text" name="name">
+          </div>
+          <div class="form-group">
+            <input placeholder="Password" class="form-control" type="password" name="password">
+          </div>
+
+          <input type="submit" class="btn btn-primary btn-success" value="Login">
+          <br>
+        </form>
+        <a href="#">Forgot your password?</a> </div>
+    </div>
+  </div>
+</div>
+<script src="/static/front/javascripts/jquery-min.js" type="text/javascript"></script>
+<script src="/static/front/javascripts/bootstrap.min.js"></script>
+<script>
+                $(document).on('click', '#user_password', function () {
+                    $('.mute-box').show();
+                    $('#password_box').show();
+                });
+                $(document).on('keyup', '#user_password', function () {
+
+                    var password = $(this).val();
+                    var lmatches = password.match(/[a-z]/);
+                    var umatches = password.match(/[A-Z]/);
+                    var re = password.match(/[0-9!@#$%^&*]/);
+                    if(password !==''){
+                    if (password.length >= 6) {
+                        $('#suggetion1').css({'color': '#17aa48'});
+                        $('#password_box').css({'border': '1px solid green'});
+                        $('#pass_div').removeClass('has-error');
+                        $( "#submit_button" ).removeAttr( "disabled" ).css({'animation': '0.7s ease 0s normal both 1 running dialog-open'})
+                    } else {
+                        $('#password_box').css({'border': ''});
+                        $('#suggetion1').css({'color': '#ff9422'});
+                        $('#pass_div').addClass('has-error');
+                        $('#submit_button').attr("disabled","true").css({'opacity': '','animation':''});
+                    }
+                }else{
+                    $('#pass_div').removeClass('has-error');
+                }
+                    if (lmatches !== null && umatches !== null) {
+                        $('#suggetion2').css({'color': '#17aa48'});
+                    } else {
+                        $('#suggetion2').css({'color': ''});
+                    }
+                    if (re !== null) {
+                        $('#suggetion3').css({'color': '#17aa48'});
+                    } else {
+                        $('#suggetion3').css({'color': ''});
+                    }
+                });
+                function isValidEmailAddress(emailAddress) {
+                    var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
+                    return pattern.test(emailAddress);
+                }
+                $(document).on('keyup', '#user_email', function () {
+                     setTimeout(function() {
+                    var email = $('#user_email').val();
+                    if (email !== '') {
+                        if (!isValidEmailAddress(email)) {
+                           console.log('no')
+                            if ( $( "#email_error" ).length ) {
+                                setTimeout(function() {
+                                 $('#email_div').addClass('has-error');
+                                 $('#email_error').text('Oops! That looks like an invalid email address!');
+                                 }, 5000 );
+                            }else{
+                                var error ='<div role="alert" class="alert-danger alert" id="email_error">Oops! That looks like an invalid email address!</div>';
+                                $( "#user_email" ).after( error );
+                                $('#email_div').addClass('has-error');
+                            }
+                        } else {
+                            $('#email_div').removeClass('has-error');
+                            $('#email_error').remove();
+                        }
+                    }else{
+                        $('#email_error').remove();
+                        $('#email_error').text('');
+                    }
+                    }, 2000 );
+                });
+
+        </script>
+
+
+</body></html>

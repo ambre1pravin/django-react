@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+<title>{{ settings.HOST_NAME }}</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/static/front/icons/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/static/front/icons/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/static/front/icons/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/static/front/icons/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/static/front/icons/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/static/front/icons/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/static/front/icons/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/static/front/icons/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/static/front/icons/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/static/front/icons/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/front/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/static/front/icons/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/static/front/icons/favicon-16x16.png">
+<link rel="manifest" href="manifest.json">
+    <style>
+#overlay {
+    position: fixed;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    cursor: pointer;
+}
+#text{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 50px;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}
+<!-- end processing overlay-->
+        /* Example Styles for React Tags*/
+div.ReactTags__tags {
+    position: relative;
+}
+
+/* Styles for the input */
+div.ReactTags__tagInput {
+    width: 200px;
+    border-radius: 2px;
+    display: inline-block;
+}
+div.ReactTags__tagInput input,
+div.ReactTags__tagInput input:focus {
+    height: 31px;
+    margin: 0;
+    font-size: 12px;
+    width: 100%;
+    border: 1px solid #eee;
+}
+
+/* Styles for selected tags */
+div.ReactTags__selected span.ReactTags__tag {
+    border: 1px solid #ddd;
+    background: #eee;
+    font-size: 12px;
+    display: inline-block;
+    padding: 5px;
+    margin: 0 5px;
+    cursor: move;
+    border-radius: 2px;
+}
+div.ReactTags__selected a.ReactTags__remove {
+    color: #aaa;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+/* Styles for suggestions */
+div.ReactTags__suggestions {
+    position: absolute;
+}
+div.ReactTags__suggestions ul {
+    list-style-type: none;
+    box-shadow: .05em .01em .5em rgba(0,0,0,.2);
+    background: white;
+    width: 200px;
+}
+div.ReactTags__suggestions li {
+    border-bottom: 1px solid #ddd;
+    padding: 5px 10px;
+    margin: 0;
+}
+div.ReactTags__suggestions li mark {
+    text-decoration: underline;
+    background: none;
+    font-weight: 600;
+}
+div.ReactTags__suggestions ul li.active {
+    background: #b7cfe0;
+    cursor: pointer;
+}
+.fc-toolbar{
+    text-align: center;
+}
+.fc-toolbar .fc-right {
+    float: right;
+}
+
+
+.ql-editor{
+    min-height: 100px;
+}
+
+.react-date-field--theme-default{
+    border:1px solid #fff !important;
+    width: 100%;
+}
+.error{
+    color: red;
+}
+
+
+
+
+
+
+
+</style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+    <link href="/static/front/css/styles.css" rel="stylesheet"/>
+    <link href="/static/front/stylesheets/react-notifications/notifications.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/static/front/css/react_select.css">
+<body>
+
+<script type="text/javascript">
+    var base_url ='{{ settings.HOST_NAME }}';
+    var directory_path ='/static/front';
+</script>
+
+<script>
+    var config = {'user_info':{
+        'ROLES': {{request.user.profile.roles | safe}},
+        'LOGED_IN_USER':'{{ request.user.email }}',
+        'lan':'{{ request.user.profile.language }}',
+        'activation_key':'{{ request.user.profile.activation_key }}',
+        'company_status':'{{ request.user.profile.company.company_status }}',
+        'company':'{{request.user.profile.company.id}}',
+        'user_id':'{{request.user.id}}',
+        'profile_image':'{{request.user.profile.profile_image}}',
+        'is_superuser':'{{request.user.is_superuser}}',
+        'user_status':'{{request.user.profile.is_admin}}'
+        }
+    };
+ </script>
+
+  <div id="app"></div>
+    <script src="/static/front/javascripts/jquery-min.js" type="text/javascript"></script>
+    <script src="/static/front/javascripts/bootsraptypead.js" type="text/javascript"></script>
+    <script src="/static/front/javascripts/numeral.min.js"></script>
+    <script  type="text/javascript" src="/static/front/javascripts/summernote.js "></script>
+
+    <script src="/static/front/javascripts/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/front/javascripts/jquery.validate.min.js"></script>
+    <script src="/static/front/javascripts/bootstrap.min.js"></script>
+    <script src="/static/front/javascripts/moment.js"></script>
+    <script src="/static/front/javascripts/bootstrap-datetimepicker.js"></script>
+    <script src="/static/front/javascripts/fullcalendar.js"></script>
+    <script src='/static/front/javascripts/lang-all.js'></script>
+    {% if request.user.profile.language == 'French' %}
+        <script src="/static/front/javascripts/datepicker-fr.js"></script>
+    {% endif %}
+    <script src="/static/front/javascripts/bootstrap-select.js" type="text/javascript"></script>
+    <script src="/static/front/javascripts/bundle.js"></script>
+   <script src="/static/front/javascripts/common.js " type="text/javascript"></script>
+</body>
+</html>

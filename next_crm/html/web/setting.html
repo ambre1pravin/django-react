@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Frame Sales | Saalz</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+    <link href="/static/front/css/styles.css" rel="stylesheet"/>
+</head>
+<body>
+<script>
+      var config = {
+        ROLES: {{ request.user.profile.roles|safe }},
+        LOGED_IN_USER: '{{ request.user.email }}',
+        lan :"fr"
+      };
+ </script>
+  <div id="app"></div>
+    <script src="/static/front/javascripts/jquery-min.js" type="text/javascript"></script>
+    <script src="/static/front/javascripts/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/front/javascripts/bootstrap.min.js"></script>
+    <script src="/static/front/javascripts/bootstrap-select.js" type="text/javascript"></script>
+    <!--<script src="/static/front/javascripts/common.js" type="text/javascript"></script>-->
+    <script src="/static/front/javascripts/bundle.js"></script>
+</body>
+</html>

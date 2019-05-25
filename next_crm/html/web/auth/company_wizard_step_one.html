@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Account Setup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" />
+    <link href='/static/front/css/landing.css' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div id="account-setup">
+    <div class="logo text-center"><img src="/static/front/images/saalz-small.png" alt="Saalz"></div>
+    <div id="name-dp" class="setup-box edit-form clearfix">
+        <h2 class="text-center">Félicitations, vous êtes prêts !</h2>
+        <form action="/company-wizard/" method="post" autocomplete="off" enctype="multipart/form-data">
+        <div class="dp pull-right">
+            <div data-text="Upload Photo"></div>
+                <input type="file" name="account-dp" accept="image/*"  onchange="previewImage();">
+            <img class="dp-account hide" src="" alt="" />
+        </div>
+        <div class="name pull-right">
+            <div class="form-group">
+                <label for="country">Country</label>
+
+                <select name="country" id="country" class="form-control">
+                    <option value="" default>Select country</option>
+                    {% for country in countries %}
+                    <option value="{{country.id}}" {% if country.code == "FR" %} selected="selected" {% endif %}>{{country.label}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="language">Language</label>
+                <select name="language" id="language" class="form-control">
+                    <option value="en">English</option>
+                    <option value="fr" selected="selected">French</option>
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="currency">Currency</label>
+                <select name="curency" id="currency" class="form-control">
+                    <option value="euro"  selected="selected">Euro</option>
+                    <option value="dollar">Dollar</option>
+                    <option value="rupee">Rupee</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="timezone">Timezone</label>
+                <select name="timezone" id="timezone" class="form-control">
+                    <option value="europe">Europe</option>
+                    <option value="asia">Asia</option>
+                    <option value="pasific">Pasific</option>
+                </select>
+            </div>
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Suivant</button>
+        </div>
+        </form>
+    </div>
+    <div id="welcome" class="setup-box hide">
+        <h2 class="text-center">Bienvenu dans le CRM le plus rapide!</h2>
+        <p>Profitez de la rapidité et de la simplicité de nos modules. Vous pouvez dès maintenant découvrir nos fonctionnalités ultra puissantes!</p>
+        <button type="submit" class="btn btn-primary">C'est parti!</button>
+    </div>
+</div>
+    <script type="text/javascript" src="/static/front/javascripts/jquery-min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $('div.dp div, div.dp img').click(function() {
+            $('div.dp input[type="file"]').trigger('click');
+        });
+        var preview = document.querySelector('div.dp img.dp-account'),
+            upload_box = document.querySelector('div.dp > div'),
+            reader  = new FileReader(),
+            all_done = false;
+        function previewImage() {
+            var file = document.querySelector('div.dp input[type=file]').files[0];
+            reader.addEventListener("load", function () {
+                preview.src = reader.result;
+            }, false);
+
+            if(file) {
+                reader.readAsDataURL(file);
+                preview.classList.remove('hide');
+                if(!upload_box.classList.contains('hide')) {
+                    upload_box.className += " hide";
+                }
+            }
+        }
+</script>
+</body>
+</html>

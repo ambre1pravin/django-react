@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pricing - Company Info | Saalz</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+    <link rel="stylesheet" href="/static/front/stylesheets/styles.css" />
+
+</head>
+<body>
+<div>
+    <div id="crm-app" class="clearfix module__pricing">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-default clearfix">
+                        <h2>Next CRM Online Pricing</h2>
+                        <ul class="payment-steps clearfix pull-right">
+                            <li class="active"><span class="done-mark"><svg viewBox="0 0 32 32"><polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon></svg></span> <a href="/payment_step_1/" title="Back to Company Information">Company Information</a></li>
+                            <li class=""><span class="done-mark"><svg viewBox="0 0 32 32"><polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon></svg></span> <a href="/payment_step_2/" title="Back to Select Users &amp; Applications">Select Users &amp; Applications</a></li>
+                            <li class=""><span class="done-mark"><svg viewBox="0 0 32 32"><polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon></svg></span> Payment Information</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="panel panel-default clearfix">
+                <h3>Company Information</h3>
+                <div class="company-info-box edit-form">
+                <form action="/payment_step_2/" method="POST" autocomplete="off">
+                   {% csrf_token %}
+                    <input type="hidden" name="is_vat_will_charge" value="" id="is_vat_will_charge" />
+                <table>
+                    <tr>
+                        <td colspan="2">
+                            <div class="form-group">
+                                <input type="text" name="company-name" placeholder="Company Name" class="form-control" value="{{ request.user.company.company }}">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" name="first_name" placeholder="First Name" class="form-control" value="{{ request.user.first_name }}">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" name="last_name" placeholder="Last Name" class="form-control" value="{{ request.user.last_name }}">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="form-group">
+                                <div class="dropdown autocomplete">
+                                    <div class="form-control">
+                                        <select name="country" style="width:100%" id="country" required>
+
+                                            <option value="" default>Select country</option>
+                                            {% for country in countries %}
+                                            <option value="{{country.id}}" data-is_vat="{{country.is_vat}}">{{country.label}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="form-group">
+                                <input type="text" name="street" placeholder="Street" class="form-control" value="{{request.user.company.billing_street }}">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" name="city" placeholder="City" class="form-control" value="{{ request.user.company.billing_city }}">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" name="zip" placeholder="ZIP" class="form-control" value="{{ request.user.company.billing_zip }}">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td colspan="2">
+                            <div class="form-group">
+                                <input type="text" name="vat" placeholder="VAT Numbers" class="form-control" value="" >
+                                <em class="text-muted">Enter a valid VAT numbers to be charge tax free</em>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button type="submit" class="btn btn-primary btn-lg">Next <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></td>
+                    </tr>
+
+                </table>
+                </form>
+                </div>
+                </div>
+            </div>
+        <div class="testimonials col-xs-12 col-ms-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-default">
+        <h3>Customers' <strong>Feedback</strong></h3>
+        <div class="row">
+            <div class="col-xs-12 col-ms-6 col-sm-6 col-md-6 col-lg-4">
+            <div class="testi">
+                <div class="testi-head clearfix">
+                    <img src="/static/front/images/avatar/9.png" alt="Customer" class="img-circle">
+                    <div class="pull-left">
+                        <h4>Customer</h4>
+                        <p class="position">CEO, Some Company</p>
+                    </div>
+                </div>
+                <div class="testi-content">
+                    <p class="fa fa-quote-right">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+                </div>
+            </div>
+            </div>
+            <div class="col-xs-12 col-ms-6 col-sm-6 col-md-6 col-lg-4">
+            <div class="testi">
+                <div class="testi-head clearfix">
+                    <img src="/static/front/images/avatar/4.png" alt="Customer" class="img-circle">
+                    <div class="pull-left">
+                        <h4>Customer</h4>
+                        <p class="position">CEO, Some Company</p>
+                    </div>
+                </div>
+                <div class="testi-content">
+                    <p class="fa fa-quote-right">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+                </div>
+            </div>
+            </div>
+            <div class="col-xs-12 col-ms-6 col-sm-6 col-md-6 col-lg-4">
+            <div class="testi">
+                <div class="testi-head clearfix">
+                    <img src="/static/front/images/avatar/7.png" alt="Customer" class="img-circle">
+                    <div class="pull-left">
+                        <h4>Customer</h4>
+                        <p class="position">CEO, Some Company</p>
+                    </div>
+                </div>
+                <div class="testi-content">
+                    <p class="fa fa-quote-right">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript" src="/static/front/javascripts/jquery-min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/notify.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/common.js"></script>
+    <script type="text/javascript">
+        $('#country').on('change', function() {
+           var is_vat = $('option:selected', this).attr('data-is_vat');
+            if(is_vat == 'False'){
+                $('input[name="vat"]').closest('tr').hide();
+                $('#is_vat_will_charge').val(false)
+
+            }else{
+                $('input[name="vat"]').closest('tr').show();
+                $('#is_vat_will_charge').val(true)
+            }
+        })
+
+    </script>
+</body>
+</html>
+

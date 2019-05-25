@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create Email Template | Saalz</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+    <link rel="stylesheet" href="/static/front/stylesheets/styles.css" />
+    <link rel="stylesheet" href="/static/front/stylesheets/quotation.css" />
+    <link rel="stylesheet" href="/static/front/stylesheets/product.css " rel="stylesheet" />
+        <link rel="stylesheet" href="/static/front/stylesheets/summernote.css" />
+    <link href="/static/front/stylesheets/react-notifications/notifications.css " rel="stylesheet"/>
+    <script type="text/javascript">
+           var base_url =  '{{ BASE_URL_SITE}}';
+           var BASE_FULL_URL = '{{BASE_URL_SITE}}';
+    </script>
+     <script>
+      var config = {
+        ROLES: {{ request.user.profile.roles|safe }},
+        LOGED_IN_USER: '{{ request.user.email }}',
+        ID : {{request.user.id}},
+        lan :"fr"
+      };
+
+
+    </script>
+<body>
+    <div id="app"></div>
+    
+    <script type="text/javascript" src="/static/front/javascripts/jquery-min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/bootstrap.min.js "></script> 
+    <script type="text/javascript" src="/static/front/javascripts/bootstrap-select.js " type="text/javascript"></script> 
+    <script type="text/javascript" src="/static/front/javascripts/bootstrap-sass-datepicker.js " type="text/javascript"></script> 
+    <script type="text/javascript" src="/static/front/javascripts/common.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/sales_bundle.js"></script>
+        <script type="text/javascript" src="/static/front/javascripts/summernote.js "></script>
+
+</body>
+</html>

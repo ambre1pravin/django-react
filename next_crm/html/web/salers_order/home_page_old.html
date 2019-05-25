@@ -1,0 +1,149 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Statement | Saalz</title>
+<style type="text/css">
+    html, body { margin: 0; padding: 0; }
+    body {font-weight: 300; font-size: 13px;}
+    div.panel { color:#777; margin-top:50px }
+    div.panel.panel-default>.panel-heading { background-color:#fff }
+    h1, h2{ font-weight:bold }
+    h2.product-service-head{ border-top:1px solid #ddd; border-bottom:1px solid #ddd; color:#555; font-size:20px; padding:7px 0px -7px; }
+    @page { margin: 1cm; @frame footer { -pdf-frame-content: footerContent; margin-left: 1cm; margin-right: 1cm; height: 1cm; bottom: 0.5pt;
+      }
+    }
+</style>
+</head>
+<body>
+    <div class="con">
+      <div class="container">
+        <div class=" panel-default panel">
+            <table width = 1000>
+                <tr>
+                    <td class="tdclas1" style="text-align:left; width:500px;vertical-align:top; ">
+                      <table class="quotation-detail">
+                          <tr>
+                              <td style="padding-bottom: 10px;">
+                                {% if company_logo %}
+                                <img src="{{company_logo}}" alt="logo" width="98" height="98"/>
+                                {% else %}
+                                <p style="color:#DB7093; font-size: 24px;">{{company_name}}</p>
+                                {% endif %}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td style="padding-top: 13px;">{{company_billing_company_name}}</td>
+                          </tr>
+                          <tr>
+                            <td class="tdclass">
+                            {{company_address_billing_street}}<br/>
+                            {{company_address_billing_city}} <br/>
+                            {{company_address_billing_country}} {{company_address_billing_zip}}</td>
+                          </tr>
+                          <tr>
+                            <td class="tdclass">{{email}}</td>
+                          </tr>
+                          <tr class="headline">
+                            <td class="tdclass ">{{phone}}</td>
+                          </tr>
+                      </table>
+                    </td>
+                    <td style="text-align:right; width:500px">
+                        <table class="quotation-detail1"  style="text-align:right;">
+                            <tr>
+                                <td colspan="2" style="font-weight:bold;padding:0;margin:0; font-size:25px; color: #DB7093;">Your Sales Order {{name}}</td>
+                            </tr>
+                            <tr style="padding-top:0px">
+                                <td>DATE :</td>
+                                <td width=70 class="tdclass">{{order_date1}}</td>
+                            </tr>
+                            <tr >
+                                <td>VALIDITY :</td>
+                                <td width=70 class="tdclass">{{expiration_date1}}</td>
+                            </tr>
+                            <tr style="padding-top: 11px;">
+                                 <td colspan="2" style="text-align:right;">{{customer_name}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><i class="fa fa-map-marker"></i>
+                                {{address_street}}<br/>
+                                {{address_street2}}<br/>
+                                {{address_city}} {{address_state}}<br/>
+                                {{address_country}} {{address_zip}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <i class="fa fa-envelope"></i>{{customer_email}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <i class="fa fa-envelope"></i>{{mobile}}
+                                </td>
+                            </tr>
+                        </table>
+                     </td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel">
+            <h2 class="product-service-head">Product and Services</h2>
+            <table style="padding-top:-19px;width:1400px;">
+                <thead>
+                    <tr style="border-bottom:1px solid #e0e0e0;">
+                        <th style="padding-left:0px;text-align:left;width: 30%;">Products</th>
+                        <th style="padding-left:5px;text-align:left;">Quantity</th>
+                        <th style="padding-left:-8px;text-align:left;width: 210px;">Unit of Measure</th>
+                        <th style="padding-left:-5px;text-align:left">Unit Price</th>
+                        <th style="padding-left:-6px;text-align:left">Taxes</th>
+                        <th style="padding-left:8px;text-align:left;width: 180px;">Discount (%)</th>
+                        <th style="padding-right:5px;text-align:right">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pro in products %}
+                    <tr style="border-bottom:1px solid #e0e0e0;padding-top: 5px;">
+                       <td  valign="top"  style="padding-left:0px;text-align:left;color: #DB7093;width: 30%;float:left">{{pro.product_name}}
+                          <p style="height: auto;overflow:scroll;color:#777;">{{pro.product_description}}</p>
+                        </td>
+                        <td  valign="top" style="padding-left:5px;text-align:left;" >{{pro.product_qty}}</td>
+                        <td  valign="top" style="padding-left:-8px;text-align:left;width: 210px;">{{pro.product_uom_name}}</td>
+                        <td  valign="top" style="padding-left:-5px;text-align:left;">{{pro.unit_price}}</td>
+                        <td  valign="top" style="padding-left:-6px;text-align:left;">{{pro.product_tax_name}}</td>
+                        <td  valign="top" style="padding-left:8px;text-align:left;width: 180px;">{{pro.discount}}</td>
+                        <td  valign="top" style="padding-right:5px;text-align:right;" >{{pro.price_subtotal}} {{currency}}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr style="padding-top: 15px; text-align:right;padding-right:5px; color:#555;font-weight:bold;">
+                        <td colspan="6">Subtotal :</td>
+                        <td>{{amount_untaxed}} &euro;</td>
+                    </tr>
+                    {% if multiple_tax %}
+                    {% for tax in multiple_tax %}
+                    <tr style="padding-top: 5px; text-align:right;padding-right:5px; color:#555;font-weight:bold;">
+                        <td colspan="6">Tax ({{tax.tax_name}}) :</td>
+                        <td > {{tax.tax_amount}} {{currency}}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    <tr style="padding-top: 5px; text-align:right;padding-right:5px; color:#555;font-weight:bold;">
+                        <td colspan="6">Total Tax :</td>
+                        <td >{{tax_amount}} {{currency}}</td>
+                    </tr>
+                    <tr style="padding-top: 5px; text-align:right;padding-right:5px;color:#555;font-weight:bold;">
+                        <td colspan="6">Total :</td>
+                        <td >{{total_amount}} {{currency}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix"></div>
+        <div class="text-box">{{notes}}</div>
+        <div class="clearfix"></div>
+        <div id="footerContent" class="footer" style="border-top: 1px solid black; text-align:center;padding-top:5px; color:#777">{{legacy_information}}</div>
+      </div>
+    </div>
+</body>
+</html>

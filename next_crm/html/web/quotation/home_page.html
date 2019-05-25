@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Online Statement | Saalz</title>
+<style>
+.clearfix:after,.container:after,.panel-body:after,.row:after{
+    clear:both
+}
+html{
+    font-family:sans-serif;
+    -ms-text-size-adjust:100%;
+    -webkit-text-size-adjust:100%;
+    font-size:10px;
+    -webkit-tap-highlight-color:transparent
+}
+body{
+    margin:0;
+    font-family:sans-serif;
+    font-size:14px;
+    line-height:1.42857143;
+    color:#333;
+    background-color:#fff
+}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{
+    display:block
+}
+table{
+    border-collapse:collapse;
+    border-spacing:0;
+    background-color:transparent
+}
+td,th{
+    padding:0
+}
+a,a:visited{
+    text-decoration:none
+}
+a:hover{
+    text-decoration:underline
+}
+@media print{
+    *,:after,:before{
+        color:#000!important;
+        box-shadow:none!important;
+        text-shadow:none!important
+    }
+    a,a:visited{
+        text-decoration:underline
+    }
+    a[href]:after{
+        content:" (" attr(href) ")"
+    }
+    abbr[title]:after{
+        content:" (" attr(title) ")"
+    }
+    a[href^="#"]:after,a[href^="javascript:"]:after{
+        content:""
+    }
+}
+.clearfix:after,.clearfix:before,.container:after,.container:before,.panel-body:after,.panel-body:before,.row:after,.row:before{
+    content:" ";
+    display:table
+}
+*,:after,:before{
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box
+}
+.h1,.h2,.h3,.h4,.h5,.h6,h1,h2,h3,h4,h5,h6{
+    font-family:inherit;
+    font-weight:500;
+    line-height:1.1;
+    color:inherit
+}
+.h1,.h2,.h3,h1,h2,h3{
+    margin-top:20px;
+    margin-bottom:10px
+}
+.h4,.h5,.h6,h4,h5,h6{
+    margin-top:10px;
+    margin-bottom:10px
+}
+.h1,h1{
+    font-size:36px
+}
+.h2,h2{
+    font-size:30px
+}
+.h3,h3{
+    font-size:24px
+}
+.h4,h4{
+    font-size:18px
+}
+.h5,h5{
+    font-size:14px
+}
+.h6,h6{
+    font-size:12px
+}
+p{
+    margin:0 0 10px
+}
+.text-left{
+    text-align:left
+}
+.text-right{
+    text-align:right
+}
+.text-center{
+    text-align:center
+}
+ol,ul{
+    margin-top:0;
+    margin-bottom:10px
+}
+ol ol,ol ul,ul ol,ul ul{
+    margin-bottom:0
+}
+.panel,.table{
+    margin-bottom:20px
+}
+.container{
+    margin-right:auto;
+    margin-left:auto;
+    padding-left:15px;
+    padding-right:15px
+}
+@media (min-width:768px){
+    .container{
+        width:750px
+    }
+}
+@media (min-width:992px){
+    .container{
+        width:970px
+    }
+}
+@media (min-width:1200px){
+    .container{
+        width:1170px
+    }
+}
+.row{
+    margin-left:-15px;
+    margin-right:-15px
+}
+.col-lg-6,.col-md-6,.col-sm-6,.col-xs-12,.col-xs-6{
+    position:relative;
+    min-height:1px;
+    padding-left:15px;
+    padding-right:15px
+}
+.col-xs-12{
+    float:left;
+    width:100%
+}
+@media (min-width:768px){
+    .col-sm-6{
+        float:left;
+        width:50%
+    }
+}
+@media (min-width:992px){
+    .col-md-6{
+        float:left;
+        width:50%
+    }
+}
+@media (min-width:1200px){
+    .col-lg-6{
+        float:left;
+        width:50%
+    }
+}
+th{
+    text-align:left
+}
+.table{
+    width:100%;
+    max-width:100%
+}
+.table>tbody>tr>td,.table>tbody>tr>th,.table>tfoot>tr>td,.table>tfoot>tr>th,.table>thead>tr>td,.table>thead>tr>th{
+    padding:8px;
+    line-height:1.42857143;
+    vertical-align:top;
+    border-top:1px solid #ddd
+}
+.table>thead>tr>th{
+    vertical-align:bottom;
+    border-bottom:2px solid #ddd
+}
+.panel{
+    background-color:#fff;
+    border:1px solid transparent;
+    border-radius:4px;
+    -webkit-box-shadow:0 1px 1px rgba(0,0,0,.05);
+    box-shadow:0 1px 1px rgba(0,0,0,.05)
+}
+.panel-body{
+    padding:15px
+}
+.panel-heading{
+    padding:10px 15px;
+    border-bottom:1px solid transparent;
+    border-top-right-radius:3px;
+    border-top-left-radius:3px
+}
+.panel-footer{
+    padding:10px 15px;
+    background-color:#f5f5f5;
+    border-top:1px solid #ddd;
+    border-bottom-right-radius:3px;
+    border-bottom-left-radius:3px
+}
+.panel-default{
+    border-color:#ddd
+}
+.panel-default>.panel-heading{
+    color:#333;
+    background-color:#f5f5f5;
+    border-color:#ddd
+}
+.pull-right{
+    float:right!important
+}
+.pull-left{
+    float:left!important
+}
+@-ms-viewport{
+    width:device-width
+}
+@font-face{
+    font-family:FontAwesome;
+    src:url('/static/front/fonts/font-awesome/fontawesome-webfont.eot?v=4.6.2&1464763994');
+    src:url('/static/front/fonts/font-awesome/fontawesome-webfont.eot?v=4.6.2&1464763994#iefix') format("embedded-opentype"),url('/static/front/fonts/font-awesome/fontawesome-webfont.woff2?v=4.6.2&1464763978') format("woff2"),url('/static/front/fonts/font-awesome/fontawesome-webfont.woff?v=4.6.2&1464763990') format("woff"),url('/static/front/fonts/font-awesome/fontawesome-webfont.ttf?v=4.6.2&1464763988') format("truetype"),url('/static/front/fonts/font-awesome/fontawesome-webfont.svg?v=4.6.2&1464764018#fontawesomeregular') format("svg");
+    font-weight:400;
+    font-style:normal
+}
+.fa{
+    display:inline-block;
+    font:normal normal normal 14px/1 FontAwesome;
+    font-size:inherit;
+    text-rendering:auto;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale
+}
+.fa-download:before{
+    content:""
+}
+.fa-print:before{
+    content:""
+}
+*{
+    border:none;
+    margin:0;
+    padding:0;
+    outline:0
+}
+
+::selection{
+    background:#999;
+    color:#fff
+}
+::-moz-selection{
+    background:#999;
+    color:#fff
+}
+div.module__quotation-statement div.panel .panel-footer,div.panel.panel-default div.panel-heading{
+    background-color:#fff
+}
+::-webkit-input-placeholder{
+    color:#afaaaa
+}
+::-moz-placeholder{
+    color:#afaaaa
+}
+:-ms-input-placeholder{
+    color:#afaaaa
+}
+:-moz-placeholder{
+    color:#afaaaa
+}
+div[class*=module]{
+    padding-top:41px
+}
+div.module__quotation-statement a.invoice-action{
+    color:#555;
+    margin-right:15px
+}
+div.module__quotation-statement p{
+    color:#777
+}
+div.module__quotation-statement h1,div.module__quotation-statement h2{
+    font-weight:700
+}
+div.module__quotation-statement ol,div.module__quotation-statement ul{
+    margin:20px
+}
+div.module__quotation-statement div.panel{
+    color:#777;
+    margin-top:10px
+}
+div.module__quotation-statement div.panel h3.panel-title img{
+    margin-right:10px
+}
+div.module__quotation-statement div.panel .panel-heading{
+    border-bottom:none;
+    padding:25px 30px 10px
+}
+div.module__quotation-statement div.panel .panel-body{
+    padding:0 0 100px
+}
+div.module__quotation-statement .statement-logo{
+    max-height:150px
+}
+div.module__quotation-statement h1.statement-name{
+    color:#B2C2CD;
+    font-size:28px;
+    margin-bottom:25px
+}
+div.module__quotation-statement .statement-date{
+    margin-bottom:50px
+}
+div.module__quotation-statement .statement-date p{
+    margin-bottom:5px
+}
+div.module__quotation-statement h2.items-service-head{
+    border-top:1px solid #ccc;
+    border-bottom:2px solid #ccc;
+    color:#B2C2CD;
+    font-size:24px;
+    margin:30px 0 20px;
+    padding:8px 15px
+}
+div.module__quotation-statement strong,div.module__quotation-statement thead th{
+    color:#555
+}
+div.module__quotation-statement table td,div.module__quotation-statement table th{
+    padding:8px 0;
+    vertical-align:top
+}
+div.module__quotation-statement table.items{
+    margin:30px 0 20px;
+    width:100%
+}
+div.module__quotation-statement table.items[data-columns="6"] td:first-child{
+    width:50%
+}
+div.module__quotation-statement table.items[data-columns="5"] td:first-child{
+    width:60%
+}
+div.module__quotation-statement table.items[data-columns="4"] td:first-child,div.module__quotation-statement table.items[data-columns="3"] td:first-child,div.module__quotation-statement table.items[data-columns="2"] td:first-child{
+    width:70%
+}
+div.module__quotation-statement table.items thead{
+    border-bottom:2px solid #B2C2CD
+}
+div.module__quotation-statement table.items tbody{
+    border-bottom:2px solid #ccc
+}
+div.module__quotation-statement table.items tbody tr:nth-child(even){
+    background-color:#f4f4f4
+}
+div.module__quotation-statement table.items td,div.module__quotation-statement table.items th{
+    box-sizing:border-box;
+    padding-right:4px;
+    padding-left:4px
+}
+div.module__quotation-statement table.items td:first-child,div.module__quotation-statement table.items th:first-child{
+    padding-left:50px;
+    word-break:break-word
+}
+div.module__quotation-statement table.items td:last-child,div.module__quotation-statement table.items th:last-child{
+    padding-right:50px;
+    width:150px
+}
+div.module__quotation-statement .item-desc,div.module__quotation-statement .item-unit{
+    color:#999;
+    font-size:90%;
+    margin:0;
+    padding:0
+}
+div.module__quotation-statement .item-unit{
+    font-style:italic
+}
+div.module__quotation-statement div.total-box{
+    margin-right:50px;
+    margin-bottom:30px;
+    width:250px
+}
+div.module__quotation-statement div.total-box span{
+    float:right
+}
+div.module__quotation-statement div.total-box p{
+    line-height:2;
+    margin:0;
+    padding:0 5px
+}
+div.module__quotation-statement div.total-box p:last-child{
+    border-top:1px solid #aaa;
+    border-bottom:1px solid #aaa;
+    color:#555;
+    font-weight:700
+}
+div.module__quotation-statement div.term-conditions{
+    background-color:#f4f4f4;
+    border-radius:4px;
+    margin:50px 50px 20px;
+    padding:25px
+}
+@media print{
+    *{
+        color:#444!important;
+        -webkit-print-color-adjust:exact
+    }
+    a.invoice-action{
+        display:none
+    }
+    .col-xs-12,.container,.panel-body,.panel-footer,.panel-heading,.row{
+        margin:0!important;
+        padding:0!important;
+        width:100%
+    }
+    .panel.panel-default{
+        border:none
+    }
+    .panel-body{
+        margin-top:10px!important
+    }
+    .panel-footer p{
+        margin-top:10px
+    }
+    div.module__quotation-statement h1.statement-name,div.module__quotation-statement h2.items-service-head{
+        color:#B2C2CD!important
+    }
+    div.module__quotation-statement .statement-date,div.module__quotation-statement .statement-name{
+        margin-top:0;
+        margin-bottom:15px
+    }
+    div.module__quotation-statement table.items{
+        margin:0 0 20px
+    }
+    div.module__quotation-statement table.items[data-columns="6"] td:first-child{
+        width:45%
+    }
+    div.module__quotation-statement table.items[data-columns="5"] td:first-child{
+        width:55%
+    }
+    div.module__quotation-statement table.items[data-columns="4"] td:first-child,div.module__quotation-statement table.items[data-columns="3"]      td:first-child,div.module__quotation-statement table.items[data-columns="2"] td:first-child{
+        width:65%
+    }
+    div.module__quotation-statement table.items td:first-child,div.module__quotation-statement table.items th:first-child{
+        padding-left:20px
+    }
+    div.module__quotation-statement table.items td:last-child,div.module__quotation-statement table.items th:last-child{
+        padding-right:20px;
+        width:auto!important
+    }
+    div.module__quotation-statement table.items td:not(:first-child),div.module__quotation-statement table.items th:not(:first-child){
+        word-break:keep-all
+    }
+    div.module__quotation-statement table.items th{
+        color:#111!important
+    }
+    div.module__quotation-statement div.total-box{
+        margin-right:20px;
+        margin-bottom:10px
+    }
+    div.module__quotation-statement div.total-box p:last-child span,div.module__quotation-statement div.total-box strong{
+        color:#111!important;
+        font-weight:700
+    }
+}
+</style>
+</head>
+<body>
+    <div class="container module__quotation module__quotation-statement">
+        <div class="row">
+            <div class="col-xs-12">
+                <!--<a href="#" title="Print this invoice" class="invoice-action"><i class="fa fa-print" aria-hidden="true"></i> Print</a><a href="#" title="Download PDF" class="invoice-action"><i class="fa fa-download" aria-hidden="true"></i> Download PDF</a>-->
+
+                    <div class="panel-body">
+                        <table class="items" data-columns="6">
+                            <thead>
+                                <tr>
+                                    <th>Items</th>
+                                    <th class="text-right">Qty</th>
+                                    <th class="text-right">Price</th>
+                                    {% if is_product_discount %}
+                                    <th class="text-right">Discount (%)</th>
+                                    {% endif %}
+                                    {% if is_product_tax %}
+                                    <th class="text-right">Taxes</th>
+                                    {% endif %}
+                                    <th class="text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for pro in products %}
+                                <tr>
+                                    <td>{{pro.product_name}}
+                                    <p class="item-desc">{{pro.product_description}}</p></td>
+                                    <td class="text-right">{{pro.product_qty}}</td>
+                                    <td class="text-right">{{pro.unit_price|floatformat:2}} {{currency}}
+                                    <p class="item-unit">{{pro.product_uom_name}}</p></td>
+                                    {% if is_product_discount %}
+                                    <td class="text-right">{{pro.discount|floatformat:2}}</td>
+                                    {% endif %}
+                                    {% if is_product_tax %}
+                                    <td class="text-right">{{pro.product_tax_name}}</td>
+                                    {% endif %}
+                                    <td class="text-right">{{pro.price_subtotal|floatformat:2}} {{currency}}</td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                        <div class="total-box pull-right">
+                            {% if is_product_tax %}
+                            <p><strong>Subtotal :</strong><span>{{amount_untaxed|floatformat:2}} {{currency}}</span></p>
+                             {% endif %}
+                            {% if multiple_tax %}
+                            {% for tax in multiple_tax %}
+                            <p><strong>Tax ({{tax.tax_name}}) :</strong><span>{{tax.tax_amount|floatformat:2}} {{currency}}</span></p>
+                            {% endfor %}
+                            {% endif %}
+                            {% if is_product_tax %}
+                            <p><strong>Total Tax :</strong><span>{{tax_amount|floatformat:2}} {{currency}}</span></p>
+                            {% endif %}
+                            <p><strong>Total :</strong><span>{{total_amount|floatformat:2}} {{currency}}</span></p>
+                        </div>
+                        <div class="clearfix"></div>
+                        {% if optional_products %}
+                        <h2 class="items-service-head">Optional Items</h2>
+                        <table class="items" data-columns="6">
+                            <thead>
+                                <tr>
+                                    <th>Items</th>
+                                    <th class="text-right">Qty</th>
+                                    <th class="text-right">Price</th>
+                                    {% if is_opt_discount %}
+                                    <th class="text-right">Discount (%)</th>
+                                    {% endif %}
+                                    {% if is_op_product_tax %}
+                                    <th class="text-right">Taxes</th>
+                                    {% endif %}
+                                    <th class="text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for pro in optional_products %}
+                                <tr>
+                                    <td>{{pro.product_name}}
+                                    <p class="item-desc">{{pro.product_description}}</p></td>
+                                    <td class="text-right">{{pro.product_qty}}</td>
+                                    <td class="text-right">{{pro.unit_price|floatformat:2}} {{currency}}
+                                    <p class="item-unit">{{pro.product_uom_name}}</p></td>
+                                    {% if is_opt_discount %}
+                                    <td class="text-right">{{pro.discount|floatformat:2}}</td>
+                                    {% endif %}
+                                    {% if is_op_product_tax %}
+                                    <td class="text-right">&nbsp;{{pro.product_tax_name}}</td>
+                                    {% endif %}
+                                    <td class="text-right">{{pro.price_subtotal|floatformat:2}} {{currency}}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <div class="total-box pull-right">
+                            {% if is_op_product_tax %}
+                            <p><strong>Subtotal :</strong><span>{{opamount_untaxed|floatformat:2}} {{currency}}</span></p>
+                            {% endif %}
+                            {% if op_product_multiple_tax %}
+                            {% for tax in op_product_multiple_tax %}
+                            <p><strong>Tax ({{tax.tax_name}}) :</strong><span>{{tax.tax_amount|floatformat:2}} {{currency}}</span></p>
+                            {% endfor %}
+                             {% endif %}
+                            {% if is_op_product_tax %}
+                            <p><strong>Total Tax :</strong><span>{{optax_amount|floatformat:2}} {{currency}}</span></p>
+                            {% endif %}
+                            <p><strong>Total :</strong><span>{{optotal_amount|floatformat:2}} {{currency}}</span></p>
+                        </div>
+                         {% endif %}
+                        <div class="clearfix"></div>
+                         {% if notes %}
+                            <div class="term-conditions">
+                            {{notes}}
+                            </div>
+                         {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>

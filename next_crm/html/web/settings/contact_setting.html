@@ -1,0 +1,499 @@
+{% extends 'web/settings/base.html' %}
+{% block body %}
+<div class="row top-actions">
+    <div class="col-xs-12 col-sm-12">
+        <ul class="breadcrumbs-top only-breadcrumbs">
+            <li><a href="#" title="Settings">{{labels.text_settings}}</a></li>
+            <li>{{labels.text_contact}}</li>
+        </ul>
+    </div>
+</div>
+
+    <div class="row crm-stuff">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="white-tab">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#new_fields" aria-controls="new_fields" role="tab" data-toggle="tab">{{labels.button_new_field}}</a></li>
+                    <!--<li role="presentation"><a href="#unused_fields" aria-controls="unused_fields" role="tab" data-toggle="tab">{{labels.text_unused_fields}}</a></li>-->
+                </ul>
+            </div>
+            <div class="row frombox">
+
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4 left-button-area">
+                            <div class="panel panel-default">
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade in active" id="new_fields">
+                                        <div class="panel-body clearfix">
+                                            <button class="btn btn-default"><i class="sl-icon-sprite"></i>{{labels.text_single_line}}</button>
+                                            <button class="btn btn-default"><i class="ml-icon-sprite"></i>{{labels.text_multiline}}</button>
+                                            <button class="btn btn-default"><i class="ch-icon-sprite"></i>{{labels.text_checkbox}}</button>
+                                            <button class="btn btn-default"><i class="calen-icon-sprite"></i>{{labels.text_date}}</button>
+                                            <button class="btn btn-default"><i class="radio-icon-sprite"></i>{{labels.text_radio}}</button>
+                                            <button class="btn btn-default"><i class="dd-icon-sprite"></i>{{labels.text_drop_down}}</button>
+
+                                        </div>
+                                    </div>
+                                    <!--<div role="tabpanel" class="tab-pane fade" id="unused_fields">
+                                        <div class="panel-body"> 
+                                            <div class="uf-field-tab-1 clearfix">
+
+                                                {% for o in default_data_fields %}
+                                                 {% for o2 in o.fields %}
+                                                 {% if o2.is_unused %}
+                                                <button class="btn btn-default ui-draggable ui-draggable-handle" data-type="{{o2.type}}" data-default="true" data-id="{{o2.id}}" data-tab="field-tab-1">
+                                                 <i class="sl-icon-sprite"></i>{{o2.name}}</button>
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 frombox">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <button id="save-all" class="btn btn-primary pull-right">{{labels.text_save_all}}</button>
+                                    <h1 class="pink">Form</h1>
+                                    <p class="pink"><em>{{labels.text_drag_info}}</em></p>
+                                    <p class="pink"><em>Pink color fields are default and not dragable.</em></p>
+                                </div>
+                                <div class="panel-body">
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        {% for o in default_data_fields %}
+                                        <div id="field-tab-{{ forloop.counter }}" role="tabpanel" class="tab-pane">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 border-right">
+                                                    <ul class="list-unstyled setting-fields-list">
+                                                        {% if o.is_default %}
+                                                        <li data-type="single-line" data-default="{{o.is_default}}" data-id="0" class="unsortable">
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <input type="text" class=" pink" value="Lead Name"  readonly/>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">Tang Tsui</div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li data-type="single-line" data-default="{{o.is_default}}" data-id="0" class="unsortable">
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <input type="text" class="pink" value="Email"  readonly/>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">Email</div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li data-type="single-line" data-default="{{o.is_default}}" data-id="0" class="unsortable">
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <input type="text" class="pink" value="Phone"  readonly/>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">Phone</div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li data-type="single-line" data-default="{{o.is_default}}" data-id="0" class="unsortable">
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <input type="text" class="pink" value="Mobile" readonly/>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">Mobile</div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li data-type="single-line" data-default="{{o.is_default}}" data-id="0" class="unsortable">
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <input type="text" class="pink" value="Street" readonly/>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">Street</div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li data-type="single-line" data-default="{{o.is_default}}" data-id="0" class="unsortable">
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <input type="text" class="pink" value="Street2" readonly/>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">Street2</div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li data-type="single-line" data-default="{{o.is_default}}" data-id="0" class="unsortable">
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <input type="text" class="pink" value="City" readonly/>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">City</div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li data-type="single-line" data-default="{{o.is_default}}" data-id="0" class="unsortable">
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <input type="text" class="pink" value="Zip" readonly/>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">Zip</div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li data-type="single-line" data-default="{{o.is_default}}" data-id="0" class="unsortable">
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <input type="text" class="pink" value="Country" readonly/>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">Country</div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        {% endif %}
+                                                        {% for o2 in o.fields %}
+                                                        {% if o2.display_position == 'left' and not o2.is_unused %}
+                                                        {% if o2.type == 'single-line'  or  o2.type == 'date' or  o2.type == 'phone' or  o2.type == 'multiselect'  %}
+                                                        <li data-type="{{o2.type}}" data-default={% if o2.is_default %}  "true" {% else %} "false" {% endif %} data-id="{{o2.id}}">
+                                                            <div class="row">
+                                                                <div class={% if o2.is_required %} "col-lg-4 col-md-4 col-sm-4 col-xs-12 required" {% else %} "col-lg-4 col-md-4 col-sm-4 col-xs-12" {% endif %}>
+                                                                    <input type="text" class="" value="{{o2.label}}" />
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">{{o2.label}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        {% elif o2.type == 'drop-down' %}
+                                                        <li data-type="{{o2.type}}" data-default={% if o2.is_default %} "true" {% else %} "false" {% endif %} data-id="{{o2.id}}">
+                                                            <div class="row">
+                                                                <div class={% if o2.is_required %} "col-lg-4 col-md-4 col-sm-4 col-xs-12 required" {% else %} "col-lg-4 col-md-4 col-sm-4 col-xs-12" {% endif %}>
+                                                                    <input type="text"  value="{{o2.label}}" />
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">
+                                                                        {% for i in o2.default_values %}
+                                                                        <p>{{i}}</p>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                    <div class="dropdown">
+                                                                        <button class="btn btn-default editbtn edit-field" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-edit"></i></button>
+                                                                        <div class="dd-options">
+                                                                            <span>{{labels.text_select_option}}</span>
+                                                                            <ul class="options-list">
+                                                                                <!--<li data-action="required">{% if o2.is_required %}Unmark Required{% else %}Mark Required{% endif %}</li>-->
+                                                                                <li data-action="properties">{{labels.text_set_properties}}</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button class="btn btn-default editbtn delete-field" title="Remove"><i class="fa fa-trash"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        {% elif o2.type == 'checkbox' %}
+                                                        <li data-type="{{o2.type}}" data-default={% if o2.is_default %} "true" {% else %} "false" {% endif %} data-id="{{o2.id}}">
+                                                            <div class="row">
+                                                                <div class={% if o2.is_required %} "col-lg-4 col-md-4 col-sm-4 col-xs-12 required" {% else %} "col-lg-4 col-md-4 col-sm-4 col-xs-12" {% endif %}>
+                                                                    <input type="text"  value="{{o2.label}}" />
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">
+                                                                       {% for i in o2.default_values %}
+                                                                        <p>{{i}}</p>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                    <div class="dropdown">
+                                                                        <button class="btn btn-default editbtn edit-field" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                                            <i class="fa fa-edit"></i>
+                                                                        </button>
+                                                                        <div class="dd-options">
+                                                                            <span>{{labels.text_select_option}}</span>
+                                                                            <ul class="options-list">
+                                                                                <!--<li data-action="required">{% if o2.is_required %}Unmark Required{% else %}Mark Required{% endif %}</li>-->
+                                                                                <li data-action="properties">{{labels.text_set_properties}}</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button class="btn btn-default editbtn delete-field" title="Remove">
+                                                                        <i class="fa fa-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        {% elif o2.type == 'radio' %}
+                                                       <li data-type="{{o2.type}}" data-default={% if o2.is_default %} "true" {% else %} "false" {% endif %} data-id="{{o2.id}}">
+                                                            <div class="row">
+                                                                <div class={% if o2.is_required %} "col-lg-4 col-md-4 col-sm-4 col-xs-12 required" {% else %} "col-lg-4 col-md-4 col-sm-4 col-xs-12" {% endif %}>
+                                                                    <input type="text"  value="{{o2.label}}" />
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">
+                                                                        {% for i in o2.default_values %}
+                                                                        <p>{{i}}</p>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                    <div class="dropdown">
+                                                                        <button class="btn btn-default editbtn edit-field" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                                            <i class="fa fa-edit"></i>
+                                                                        </button>
+                                                                        <div class="dd-options">
+                                                                            <span>{{labels.text_select_option}}</span>
+                                                                            <ul class="options-list">
+                                                                                <!--<li data-action="required">{% if o2.is_required %}Unmark Required{% else %}Mark Required{% endif %}</li>-->
+                                                                                <li data-action="properties">{{labels.text_set_properties}}</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button class="btn btn-default editbtn delete-field" title="Remove">
+                                                                        <i class="fa fa-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        {% elif o2.type == 'multi-line' %}
+                                                       <li data-type="{{o2.type}}" data-default={% if o2.is_default  %}"true"{% else %}"false"{% endif %} data-id="{{o2.id}}">
+                                                            <div class="row draging-box ">
+                                                                <div class={% if o2.is_required %} "col-lg-4 col-md-4 col-sm-4 col-xs-12 required" {% else %} "col-lg-4 col-md-4 col-sm-4 col-xs-12" {% endif %}>
+                                                                    <input type="text"  value="{{o2.label}}" />
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">
+                                                                        <p>{{labels.text_multiline}}</p>
+                                                                        <p>{{labels.text_multiline}}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                    <!--<div class="dropdown">
+                                                                        <button class="btn btn-default editbtn edit-field" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-edit"></i></button>
+                                                                        <div class="dd-options">
+                                                                            <span>{{labels.text_select_option}}</span>
+                                                                            <ul class="options-list">
+                                                                                <li data-action="required">{% if o2.is_required %}Unmark Required{% else %}Mark Required{% endif %}</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>-->
+                                                                    <button class="btn btn-default editbtn delete-field" title="Remove"><i class="fa fa-trash"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        {% endif %}
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <ul class="list-unstyled setting-fields-list">
+                                                        {% for o2 in o.fields %}
+                                                        {% if o2.display_position == 'right' and not o2.is_unused  %}
+                                                        {% if o2.type == 'single-line'  or  o2.type == 'date' or  o2.type == 'phone' or  o2.type == 'multiselect'%}
+                                                        <li data-type="{{o2.type}}" data-default={% if o2.is_default %} "true" {% else %} "false" {% endif %} data-id="{{o2.id}}">
+                                                            <div class="row">
+                                                                <div class={% if o2.is_required %} "col-lg-4 col-md-4 col-sm-4 col-xs-12 required" {% else %} "col-lg-4 col-md-4 col-sm-4 col-xs-12" {% endif %}>
+                                                                    <input type="text"  value="{{o2.label}}" />
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">{{o2.label}}</div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                    <!--<div class="dropdown">
+                                                                        <button class="btn btn-default editbtn edit-field" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-edit"></i></button>
+                                                                        <div class="dd-options">
+                                                                            <span>{{labels.text_select_option}}</span>
+                                                                            <ul class="options-list">
+                                                                                <li data-action="required">{% if o2.is_required %}Unmark Required{% else %}Mark Required{% endif %}</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>-->
+                                                                    <button class="btn btn-default editbtn delete-field"  title="Remove"><i class="fa fa-trash"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        {% elif o2.type == 'drop-down' %}
+                                                       <li data-type="{{o2.type}}" data-default={% if o2.is_default %} "true" {% else %} "false" {% endif %} data-id="{{o2.id}}">
+                                                            <div class="row">
+                                                                <div class={% if o2.is_required %} "col-lg-4 col-md-4 col-sm-4 col-xs-12 required" {% else %} "col-lg-4 col-md-4 col-sm-4 col-xs-12" {% endif %}>
+                                                                    <input type="text"  value="{{o2.label}}" />
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">
+                                                                        {% for i in o2.default_values %}
+                                                                        <p>{{i}}</p>
+                                                                        {% endfor %}
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                    <div class="dropdown">
+                                                                        <button class="btn btn-default editbtn edit-field" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-edit"></i></button>
+                                                                        <div class="dd-options">
+                                                                            <span>{{labels.text_select_option}}</span>
+                                                                            <ul class="options-list">
+                                                                                <!--<li data-action="required">{% if o2.is_required %}Unmark Required{% else %}Mark Required{% endif %}</li>-->
+                                                                                <li data-action="properties">{{labels.text_set_properties}}</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button class="btn btn-default editbtn delete-field" title="Remove"><i class="fa fa-trash"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        {% elif o2.type == 'checkbox' %}
+                                                       <li data-type="{{o2.type}}" data-default={% if o2.is_default %} "true" {% else %} "false" {% endif %} data-id="{{o2.id}}">
+                                                            <div class="row">
+                                                                <div class={% if o2.is_required %} "col-lg-4 col-md-4 col-sm-4 col-xs-12 required" {% else %} "col-lg-4 col-md-4 col-sm-4 col-xs-12" {% endif %}>
+                                                                    <input type="text"  value="{{o2.label}}" />
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">
+                                                                        {% for i in o2.default_values %}
+                                                                        <p>{{i}}</p>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                    <div class="dropdown">
+                                                                        <button class="btn btn-default editbtn edit-field" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                                            <i class="fa fa-edit"></i>
+                                                                        </button>
+                                                                        <div class="dd-options">
+                                                                            <span>{{labels.text_select_option}}</span>
+                                                                            <ul class="options-list">
+                                                                                <!--<li data-action="required">{% if o2.is_required %}Unmark Required{% else %}Mark Required{% endif %}</li>-->
+                                                                                <li data-action="properties">{{labels.text_set_properties}}</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button class="btn btn-default editbtn delete-field" title="Remove">
+                                                                        <i class="fa fa-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                       </li>
+                                                        {% elif o2.type == 'radio' %}
+                                                        <li data-type="{{o2.type}}" data-default={% if o2.is_default %} "true" {% else %} "false" {% endif %} data-id="{{o2.id}}">
+                                                            <div class="row">
+                                                                <div class={% if o2.is_required %} "col-lg-4 col-md-4 col-sm-4 col-xs-12 required" {% else %} "col-lg-4 col-md-4 col-sm-4 col-xs-12" {% endif %}>
+                                                                    <input type="text"  value="{{o2.label}}" />
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">
+                                                                        {% for i in o2.default_values %}
+                                                                        <p>{{i}}</p>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                    <div class="dropdown">
+                                                                        <button class="btn btn-default editbtn edit-field" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                                            <i class="fa fa-edit"></i>
+                                                                        </button>
+                                                                        <div class="dd-options">
+                                                                            <span>{{labels.text_select_option}}</span>
+                                                                            <ul class="options-list">
+                                                                                <!--<li data-action="required">{% if o2.is_required %}Unmark Required{% else %}Mark Required{% endif %}</li>-->
+                                                                                <li data-action="properties">{{labels.text_set_properties}}</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button class="btn btn-default editbtn delete-field" title="Remove">
+                                                                        <i class="fa fa-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        {% elif o2.type == 'multi-line' %}
+                                                        <li data-type="{{o2.type}}" data-default={% if o2.is_default %} "true" {% else %} "false" {% endif %} data-id="{{o2.id}}">
+                                                            <div class="row draging-box ">
+                                                                <div class={% if o2.is_required %} "col-lg-4 col-md-4 col-sm-4 col-xs-12 required" {% else %} "col-lg-4 col-md-4 col-sm-4 col-xs-12" {% endif %}>
+                                                                    <input type="text" value="{{o2.label}}" />
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-element">
+                                                                        <p>{{labels.text_multiline}}</p>
+                                                                        <p>{{labels.text_multiline}}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 nopad">
+                                                                    <!--<div class="dropdown">
+                                                                        <button class="btn btn-default editbtn edit-field" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-edit"></i></button>
+                                                                        <div class="dd-options">
+                                                                            <span>{{labels.text_select_option}}</span>
+                                                                            <ul class="options-list">
+                                                                                <li data-action="required">{% if o2.is_required %}Unmark Required{% else %}Mark Required{% endif %}</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>-->
+                                                                    <button class="btn btn-default editbtn delete-field" title="Remove"><i class="fa fa-trash"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        {% endif %}
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="new-tab pull-right btn btn-new">{{labels.text_add_new_tab}}</div>
+                                    </div>
+                                    <ul class="nav nav-tabs custTab top-border" role="tablist">
+                                        {% for o in default_data_fields %}
+                                        <li role="presentation" class={% if o.is_default %} "unsortable" {% else %} " " {% endif %} data-default={% if o.is_default %} "true" {% else %} "false" {% endif %} data-id={{o.id}}><a href="#field-tab-{{ forloop.counter }}" aria-controls="field-tab-{{ forloop.counter }}" role="tab" data-toggle="tab">{{o.name}}</a>
+                                             <div class="dropdown dropup">
+                                                <span data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-angle-down black"></i></span>
+                                                <div class="dropdown-menu dd-options">
+                                                    <span>Select Option</span>
+                                                    <ul class="options-list">
+                                                        <li data-action="rename">{{labels.text_rename}}</li>
+                                                        {% if not o.is_default %}
+                                                          <li data-action="delete">{{labels.text_delete}}</li>
+                                                        {% endif %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

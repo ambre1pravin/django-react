@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Account Setup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" />
+    <link href='/static/front/css/landing.css' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div id="account-setup">
+    <div class="logo text-center"><img src="/static/front/images/saalz-small.png" alt="Saalz"></div>
+
+    <div id="invite" class="setup-box edit-form ">
+        <h2 class="text-center">Invitons des collaborateurs</h2>
+        {% if return_status.msg %}
+        <div class="alert alert-danger">
+            {{return_status.msg }}.
+
+        </div>
+        {% endif %}
+
+
+        <form action="/user-invite/" method="post" autocomplete="off" id="users-invite">
+            {% for email in return_status.emails %}
+        <div class="form-group">
+            <span>
+                <img src="/static/front/images/user-setup.png" alt="user" />
+            </span>
+            <input type="email" name="{{email.name}}" placeholder="{{email.name}}" class="form-control" value="{{email.value}}" style="{{email.style}}">
+        </div>
+        {% endfor %}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Suivant</button>
+        </form>
+    </div>
+
+</div>
+    <script type="text/javascript" src="/static/front/javascripts/jquery-min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $('div.dp div, div.dp img').click(function() {
+            $('div.dp input[type="file"]').trigger('click');
+        });
+        var preview = document.querySelector('div.dp img.dp-account'),
+            upload_box = document.querySelector('div.dp > div'),
+            reader  = new FileReader(),
+            all_done = false;
+        function previewImage() {
+            var file = document.querySelector('div.dp input[type=file]').files[0];
+            reader.addEventListener("load", function () {
+                preview.src = reader.result;
+            }, false);
+
+            if(file) {
+                reader.readAsDataURL(file);
+                preview.classList.remove('hide');
+                if(!upload_box.classList.contains('hide')) {
+                    upload_box.className += " hide";
+                }
+            }
+        }
+        function validate(element, sm) {
+            sm = typeof sm !== 'undefined' ? sm : 'multi';
+            all_done = true;
+            if(element.attr('id') == 'name-dp') {
+                var fields;
+                if(sm == 'multi') {
+                    fields = element.find('[required="required"]');
+                } else {
+                    fields = [element];
+                }
+                $.each(fields, function(i, ele) {
+                    if(ele.value == '') {
+                        ele.style.borderColor = 'red';
+                        ele.focus();
+                        ele.selectionStart = ele.selectionEnd = 0;
+                        all_done = false;
+                        return false;
+                    } else {
+                        ele.removeAttribute('style');
+                    }
+                });
+            } else if(element.attr('id') == 'invite') {
+                var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                $.each(element.find('[type="email"]'), function(i, ele) {
+                    if(ele.value != '') {
+                        if(!regex.test(String(ele.value).toLowerCase())) {
+                            ele.style.borderColor = 'red';
+                            ele.focus();
+                            all_done = false;
+                            return false;
+                        }
+                    } else {
+                        ele.removeAttribute('style');
+                    }
+                });
+            }
+            return all_done;
+        }
+        function check_me(e) {
+            e.preventDefault();
+            var setup = $(this).closest('.setup-box'),
+                next_setup = setup.next('.setup-box');
+            if(validate(setup)) {
+                if(next_setup.length) {
+                    setup.fadeOut(100, function() {
+                        next_setup.css({'left': '-200px', 'opacity': 0}).removeClass('hide').animate({
+                            'left': '0',
+                            'opacity': 1
+                        }, 400);
+                    });
+                } else {
+                    //alert('Done');
+                    document.getElementById("users-invite").submit();
+                }
+            }
+        }
+        function valid_button(container) {
+            all_done = true;
+            $.each(container.find('input[required="required"]'), function(i, ele) {
+                if(!$(ele).closest('.form-group').hasClass('valid')) {
+                    all_done = false;
+                    return false;
+                }
+            });
+            return all_done;
+        }
+        $(document).on('click', 'div.setup-box button', check_me);
+        $(document).on('keyup', 'div.setup-box:visible input[type="text"]', function(e) {
+            var ths = $(this),
+                cont = ths.closest('div.setup-box'),
+                txt = ths.val();
+
+            if(txt != '') {
+                ths.closest('.form-group').addClass('valid');
+            } else {
+                ths.closest('.form-group').removeClass('valid');
+            }
+            if(valid_button(cont)) {
+                cont.find('button').removeAttr('disabled');
+            } else {
+                cont.find('button').attr('disabled', 'disabled');
+            }
+        });
+    </script>
+</body>
+</html>

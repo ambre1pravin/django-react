@@ -1,0 +1,57 @@
+<div style="margin:0;padding:0;min-width:100%!important;background-color:#f6f7fb">
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+            <tr>
+                <td style="text-align:center;padding:20px">
+                	<img src="http://46.255.162.226:8001/static/front/images/saalz-small.jpg" alt="Saalz">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <table style="padding:32px;margin:32px auto;border:1px solid #dfebf0;border-radius:10px;width:auto;width:550px;background-color:#fff;" cellspacing="0" cellpadding="0" border="0" align="center">
+                    <tbody>
+                    <tr>
+                        <td>
+                        <table style="padding:32px;margin:32px auto;border:1px solid #dfebf0;border-radius:10px;width:auto;width:550px;background-color:#fff;" align="center" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                                <tr>
+                                    <td style="color:#2e4554;font-family:'Helvetica','Arial',sans-serif">
+                                        <div style="padding:32px">
+                                            <strong>Hi, {{ email_message.username}}</strong>.
+                                            <br/>
+                                            <br/>
+                                            {% if email_message.text_1 %}
+                                                {{email_message.text_1}}
+                                            {% endif %}
+
+                                            <br/>
+                                            <br/>
+                                            {% if email_message.text_2 %}
+                                                {{email_message.text_2}}
+                                            {% endif %}
+
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            {% if email_message.link %}
+                                                <div style="margin-top:30px;text-align:center;">
+                                                    <a style="color:#fff;text-decoration:none;border-radius:5px;background-color:#229ee6;border-top:10px solid #229ee6;border-bottom:10px solid #229ee6;border-right:15px solid #229ee6;border-left:15px solid #229ee6;display:inline-block" href={{email_message.link}} target="_blank">{{email_message.link_text}}</a>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        Thank you for using Crm!<br>
+                                        Sincerely,<br>
+                                        The Crm Team,
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

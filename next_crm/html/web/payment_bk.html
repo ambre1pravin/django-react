@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pricing | Saalz</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+    <link rel="stylesheet" href="/static/front/css/styles.css" />
+    <link rel="stylesheet" href="/static/front/css/pricing.css" />
+</head>
+<body>
+<div>
+    <div id="crm-app" class="clearfix module__pricing">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-default">
+                    <h2>Next CRM Online Pricing</h2>
+                        </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+                    <div class="panel panel-default">
+                        <h3>Choose the number of <strong>Users</strong></h3>
+                        <div class="pricing-users clearfix">
+                            <div>
+                                <input type="hidden" value="10" id="p_per_user">
+                                <input type="number" min="1" value={{total_user}} id="p_users" />
+                                <span class="p_users_lbl text-center">Users x <span id="p_per_user-display">10</span> EUR / monthly</span>
+                            </div>
+                            <div class="bill-options">
+                                <ul>
+                                    <li><label><input type="radio" name="_period" value="yearly" checked="true" /> Billed Yearly <strong>(save 25%)</strong></label></li>
+                                    <li><label><input type="radio" name="_period" value="monthly" /> Billed Monthly</label></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <h3>Choose your <strong>Apps</strong></h3>
+                        <div class="app-listing">
+                            <div class="row">
+                                {% for module in modules %}
+                                <div class="col-xs-12 col-ms-6 col-sm-6 col-md-4 col-lg-4" data-app="{{module.data_app}}">
+                                    <div class="row" data-requires="{{module.data_requires}}">
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                            <label for="{{module.name}}" class="clearfix">
+                                                <i class="{{module.icon}}"></i>
+                                                <div class="app-costing">
+                                                    <p class="app-name">{{module.name}}
+                                                        {% if module.data_requires %}
+                                                        <i class="fa fa-link" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="" data-original-title="Includes: {{module.data_requires}}"></i>
+                                                    {% endif %}
+                                                    </p>
+                                                    <p class="app-price">6 EUR / month</p>
+                                                    <input value="6" class="p_a_price" type="hidden">
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                            <input id="{{module.slug}}" type="checkbox">
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                    <div class="panel panel-default">
+                    <div class="summary">
+                        <div class="counting">
+                            <h3>Subscription</h3>
+                            <div class="pl_users">
+                                <strong id="pl_total_users">1</strong> Users
+                                <span class="pull-right"><span id="pl_total_users_cost">0</span> EURO</span>
+                            </div>
+                            <div class="pl_apps">
+                                <strong id="pl_total_apps">0</strong> Apps
+                                <span class="pull-right"><span id="pl_total_apps_cost">0</span> EURO</span>
+                            </div>
+                            <div class="pl_total_cost">
+                                <strong>Total</strong> / <span id="period_txt">month</span>
+                                <strong class="pull-right"><span id="pl_cost_money">0</span> EURO</strong>
+                            </div>
+                        </div>
+                        <!--<div class="extra-service">
+                            <h3>Implementation Service <sup>(*)</sup></h3>
+                            <div>
+                                Success Pack<br>
+                                <strong>Basic</strong> (25h)
+                                <strong class="pull-right">315 EURO</strong>
+                            </div>
+                            <p>(*) The <a href="#" title="implementation service">implementation service</a> is optional but recommended.</p>
+                        </div>-->
+
+
+                        <script src="https://checkout.stripe.com/checkout.js"></script>
+                        <button class="btn btn-primary" id="customButton">Start Now <small>- 15 Days Free Trial</small></button>
+                    </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript" src="/static/front/javascripts/jquery-min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/notify.min.js"></script>
+    <script type="text/javascript" src="/static/front/javascripts/common.min.js"></script>
+
+
+    <!--<script type="text/javascript">
+
+        var _period = 'monthly';
+        var total_price =0;
+
+        function count_cost() {
+
+            $('#pl_total_users').html($('#p_users').val());
+            $('#pl_total_users_cost').html(parseInt($('#p_users').val())*parseInt($('#p_per_user').val()));
+
+            var total_apps = 0, total_apps_cost = 0;
+            $('div.app-listing div[data-app]').each(function(i, app) {
+                app = $(app);
+                if(app.find('input[type="checkbox"]').is(':checked')) {
+                    total_apps++;
+                    total_apps_cost += parseInt(app.find('input.p_a_price').val());
+                }
+            });
+            $('#pl_total_apps').html(total_apps);
+            $('#pl_total_apps_cost').html(total_apps_cost);
+
+            if(_period == 'monthly') {
+
+                $('#pl_cost_money').html(parseInt($('#pl_total_users_cost').text())+parseInt($('#pl_total_apps_cost').text()));
+            } else if(_period == 'yearly') {
+                $('#pl_cost_money').html((parseInt($('#pl_total_users_cost').text())+parseInt( $('#pl_total_apps_cost').text())) * 12);
+            }
+        }
+
+        count_cost();
+
+        $('#p_users').on('keyup mouseup', count_cost);
+
+        function get_requires(app) {
+            var requires = [];
+            $.each($('div.app-listing div.row[data-requires]'), function(i, s) {
+                if(s.getAttribute('data-requires') != '') {
+                    if(s.getAttribute('data-requires').toLowerCase().indexOf(app) > -1) {
+                        requires.push($(s).closest('div[class^="col-"]').attr('data-app').toLowerCase());
+                    }
+                }
+            });
+            return requires;
+        }
+        $('div.app-listing input[type="checkbox"]').change(function() {
+            var app = $(this).closest('div.row[data-requires]'),
+            requires = app.attr('data-requires');
+            if(requires != '') {
+                requires = requires.replace(/[\s,]+/g, ',').split(',');
+            } else {
+                requires = [];
+            }
+
+            if(!app.hasClass('selected')) {
+                app.addClass('selected');
+                $.each(requires, function(i, r) {
+                    $('#app-'+r).prop('checked', true).closest('div.row[data-requires]').addClass('selected');
+                });
+            } else {
+                app.removeClass('selected');
+                tobe_removed = get_requires(app.closest('div[class^="col-"]').attr('data-app').toLowerCase());
+                $.each(tobe_removed, function(i, r) {
+                    $('#app-'+r).prop('checked', false).closest('div.row[data-requires]').removeClass('selected');
+                });
+            }
+            count_cost();
+        });
+        $('div.summary input[name="_period"]').change(function() {
+            var ths = $(this);
+
+            $('div.summary ul li').removeClass('selected');
+            ths.closest('li').addClass('selected');
+            _period = ths.val().toLowerCase();
+            $('#period_txt').text(_period.replace('ly', ''));
+            count_cost();
+        });
+
+        $("#customButton" ).click(function(e) {
+            /*total_price = (parseInt($('#pl_total_users_cost').text())+parseInt( $('#pl_total_apps_cost').text()))
+
+            if (_period == 'yearly'){
+                total_price = total_price * 12 * 100
+                planDescription ='$'+ (total_price/100) +'/Yearly';
+            }else{
+                total_price = total_price  * 100
+                planDescription ='$'+ (total_price/100) +'/Monthly';
+            }*/
+
+            handler.open({
+              name: 'Next CRM Online Pricing'
+
+
+            });
+            e.preventDefault();
+          });
+
+          // Close Checkout on page navigation
+         /* $(window).live('popstate', function() {
+           handler.close();
+        });*/
+    </script>
+    -->
+   <script type="text/javascript">
+
+        var _period = 'yearly',
+            discount = 25,
+            first_count = true;
+        function count_per_cost() {
+
+            if(_period == 'monthly' && !first_count) {
+
+                var per_usr = parseFloat($('#p_per_user').val()),
+                    per_usr_new = per_usr / (1 - (discount/100));
+                $('#p_per_user').val(per_usr_new);
+                $('#p_per_user-display').text(per_usr_new);
+
+                $('div.app-listing div[data-app]').each(function() {
+                    var ths = $(this),
+                        app_cost = parseFloat(ths.find('input.p_a_price').val()),
+                        app_cost_new = app_cost / (1 - (discount/100));
+
+                    ths.find('input.p_a_price').val(app_cost_new);
+                    ths.find('p.app-price span').text(app_cost_new);
+                });
+            } else if(_period == 'yearly') {
+
+                var per_usr = parseFloat($('#p_per_user').val()),
+                    per_usr_new = per_usr - ((discount/100) * per_usr);
+
+                $('#p_per_user').val(per_usr_new)
+                $('#p_per_user-display').text(per_usr_new);
+
+                $('div.app-listing div[data-app]').each(function() {
+                    var ths = $(this),
+                        app_cost = parseFloat(ths.find('input.p_a_price').val()),
+                        app_cost_new = app_cost - ((discount/100) * app_cost);
+
+                    ths.find('input.p_a_price').val(app_cost_new);
+                    ths.find('p.app-price span').text(app_cost_new);
+                });
+            }
+            first_count = false;
+        }
+        count_per_cost();
+
+        function count_cost() {
+
+            $('#pl_total_users').html($('#p_users').val());
+            $('#pl_total_users_cost').html(parseInt($('#p_users').val())*parseFloat($('#p_per_user').val()));
+
+            var total_apps = 0, total_apps_cost = 0;
+            $('div.app-listing div[data-app]').each(function(i, app) {
+                app = $(app);
+                if(app.find('input[type="checkbox"]').is(':checked')) {
+                    total_apps++;
+                    total_apps_cost += parseFloat(app.find('input.p_a_price').val());
+                }
+            });
+            $('#pl_total_apps').html(total_apps);
+            $('#pl_total_apps_cost').html(total_apps_cost);
+
+            if(_period == 'monthly') {
+                $('#pl_cost_money').html(parseFloat($('#pl_total_users_cost').text())+parseFloat($('#pl_total_apps_cost').text()));
+            } else if(_period == 'yearly') {
+                $('#pl_cost_money').html((parseFloat($('#pl_total_users_cost').text())+parseFloat($('#pl_total_apps_cost').text())) * 12);
+            }
+        }
+        count_cost();
+
+        $('#p_users').on('keyup mouseup', count_cost);
+
+        function get_requires(app) {
+            var requires = [];
+            $.each($('div.app-listing div.row[data-requires]'), function(i, s) {
+                if(s.getAttribute('data-requires') != '') {
+                    if(s.getAttribute('data-requires').toLowerCase().indexOf(app) > -1) {
+                        requires.push($(s).closest('div[class^="col-"]').attr('data-app').toLowerCase());
+                    }
+                }
+            });
+            return requires;
+        }
+        $('div.app-listing input[type="checkbox"]').change(function() {
+            var app = $(this).closest('div.row[data-requires]'),
+            requires = app.attr('data-requires');
+            if(requires != '') {
+                requires = requires.replace(/[\s,]+/g, ',').split(',');
+            } else {
+                requires = [];
+            }
+
+            if(!app.hasClass('selected')) {
+                app.addClass('selected');
+                $.each(requires, function(i, r) {
+                    $('#app-'+r).prop('checked', true).closest('div.row[data-requires]').addClass('selected');
+                });
+            } else {
+                app.removeClass('selected');
+                tobe_removed = get_requires(app.closest('div[class^="col-"]').attr('data-app').toLowerCase());
+                $.each(tobe_removed, function(i, r) {
+                    $('#app-'+r).prop('checked', false).closest('div.row[data-requires]').removeClass('selected');
+                });
+            }
+            count_cost();
+        });
+        $('div.bill-options input[name="_period"]').change(function() {
+            _period = $(this).val().toLowerCase();
+            $('#period_txt').text(_period.replace('ly', ''));
+            count_per_cost();
+            count_cost();
+        });
+
+        /*$('form').submit(function() {
+            var noti_error = false;
+            if($('div.app-listing input[type="checkbox"]:checked').length) {
+                $(document).find('div.notifyjs-corner > div').hide();
+            } else {
+                noti_error = notification('You have to select at least one module to use our solution', 'error');
+                return false;
+            }
+        });*/
+
+        $("#customButton" ).click(function(e) {
+            var total_price = $( "#pl_cost_money" ).text();
+            var noti_error = false;
+            if($('div.app-listing input[type="checkbox"]:checked').length) {
+                $(document).find('div.notifyjs-corner > div').hide();
+            } else {
+                noti_error = notification('You have to select at least one module to use our solution', 'error');
+                return false;
+            }
+            handler.open({
+              name: 'Next CRM Online Pricing'
+
+
+            });
+            e.preventDefault();
+          });
+    </script>
+    <script>
+            var total_price = $( "#pl_cost_money" ).text();
+            var email = $('#email').val();
+            var handler = StripeCheckout.configure({
+            key: '{{stripe_key}}',
+            locale: 'fr',
+            email:'{{request.user.profile.company.email}}',
+            allowRememberMe:'false',
+            token: function(token) {
+                var users = $('#p_users').val();
+                var apps = [];
+                $('div.app-listing input[type="checkbox"]:checked').each(function () {
+                    var id = $(this).attr("id");
+                    apps.push(id);
+                });
+                console.log(apps)
+            if(apps.length > 0 && total_price ) {
+                $.ajax({
+                    type: "POST",
+                    cache: false,
+                    dataType: "json",
+                    url: '/paymentProcess/',
+                    data: {
+                        token: token.id,
+                        email: token.email,
+                        apps: JSON.stringify(apps),
+                        users: users,
+                        plan: _period,
+                        total_price: parseInt(total_price),
+                        created_at: token.created,
+                        user_id: '{{ request.user.id }}'
+                    },
+                    beforeSend: function () {
+                        //$('.c_loading').show();
+                    },
+                    success: function (data) {
+                        if (data.success === 'true' || data.success === true) {
+                            window.location.href = '/thank-you/';
+                        } else {
+                            console.log(data.message);
+                        }
+                    }
+                });
+            }
+
+            }
+          });
+
+				</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div style="margin:0;padding:0;min-width:100%!important;background-color:#f6f7fb">
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+            <tr>
+                <td style="text-align:center;padding:20px">
+                    {% if saalz_logo %}
+                    <img src={{saalz_logo}} alt="logo" width="98" height="98"/>
+                    {% else %}
+                    <p style="color:#DB7093; font-size: 24px;">{{company_name}}</p>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <table style="padding:32px;margin:32px auto;border:1px solid #dfebf0;border-radius:10px;width:auto;width:550px;background-color:#fff;" align="center" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td style="color:#2e4554;font-family:'Helvetica','Arial',sans-serif">
+                                <div style="padding:32px">{{ msgdata1 |safe|escape}}</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

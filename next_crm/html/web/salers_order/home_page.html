@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Online Statement | Saalz</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+    <link href="/static/front/css/styles.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="container module__quotation module__quotation-statement">
+        <div class="row">
+            <div class="col-xs-12">
+                <!--<a href="#" title="Print this invoice" class="invoice-action"><i class="fa fa-print" aria-hidden="true"></i> Print</a><a href="#" title="Download PDF" class="invoice-action"><i class="fa fa-download" aria-hidden="true"></i> Download PDF</a>-->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            {% if company_logo %}
+                            <img src="{{company_logo}}" alt="logo" width="98" height="98" class="statement-logo"/>
+                            {% else %}
+                            <p style="color:#DB7093; font-size: 24px;">{{company_name}}</p>
+                            {% endif %}
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+                                <h1 class="statement-name">Your Sales Order {{name}}</h1>
+                                <div class="statement-date">
+                                    <p><strong>Invoice Date :</strong> <span>{{order_date1}}</span></p>
+                                    <p><strong>Payment Due :</strong> <span>{{expiration_date1}}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <p>
+                                    {% if company_billing_company_name %}{{company_billing_company_name}}<br> {% endif %}
+                                    {% if company_address_billing_street %}{{company_address_billing_street}}<br/>{% endif %}
+                                    {% if company_address_billing_zip %} {{company_address_billing_zip}}{% endif %}{% if company_address_billing_city %}{{company_address_billing_city}} <br/>{% endif %}
+                                    {% if email %}{{email}}<br>{% endif %}
+
+                                </p>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+                                <div class="statement-client">
+                                    {% if customer_name %}<strong>{{customer_name}}</strong>{% endif %}
+                                    {% if address_street or address_street2 or address_city  or address_state or address_country or address_zip %}
+                                    <p> {% if address_street %}{{address_street}}<br/>{% endif %}<br>
+                                    {% if address_street2 %} {{address_street2}}<br/>{% endif %}
+                                    {% if address_zip %}{{address_zip}}{% endif %} {% if address_city %}{{address_city}} <br/>{% endif %}
+                                    {% if address_state %}{{address_state}} {% endif %} {% if address_country %}{{address_country}}{% endif %}
+                                    {% if mobile %}{{mobile}}<br/>{% endif %}
+                                    </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <table class="items" data-columns="6">
+                            <thead>
+                                <tr>
+                                    <th>Items</th>
+                                    <th class="text-right">Qty</th>
+                                    <th class="text-right">Price</th>
+                                    <th class="text-right">Discount (%)</th>
+                                    <th class="text-right">Taxes</th>
+                                    <th class="text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for pro in products %}
+                                <tr>
+                                    <td>{{pro.product_name}}
+                                    <p class="item-desc">{{pro.product_description}}</p></td>
+                                    <td class="text-right">{{pro.product_qty}}</td>
+                                    <td class="text-right">{{pro.unit_price|floatformat:2}} {{currency}}
+                                    <p class="item-unit">unit</p></td>
+                                    <td class="text-right">{{pro.discount|floatformat:2}}</td>
+                                    <td class="text-right">{{pro.product_tax_name}}</td>
+                                    <td class="text-right">{{pro.price_subtotal|floatformat:2}} {{currency}}</td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                        <div class="total-box pull-right">
+                            <p><strong>Subtotal :</strong><span>{{amount_untaxed|floatformat:2}} {{currency}}</span></p>
+                            {% if multiple_tax %}
+                            {% for tax in multiple_tax %}
+                            <p><strong>Tax ({{tax.tax_name}}) :</strong><span>{{tax.tax_amount}} {{currency}}</span></p>
+                            {% endfor %}
+                            {% endif %}
+                            <p><strong>Total Tax :</strong><span>{{tax_amount|floatformat:2}} {{currency}}</span></p>
+                            <p><strong>Total:</strong><span>{{total_amount|floatformat:2}} {{currency}}</span></p>
+                        </div>
+                        <div class="clearfix"></div>
+                        {% if optional_products %}
+                        <h2 class="items-service-head">Optional Items</h2>
+                        <table class="items" data-columns="6">
+                            <thead>
+                                <tr>
+                                    <th>Items</th>
+                                    <th class="text-right">Qty</th>
+                                    <th class="text-right">Price</th>
+                                    <th class="text-right">Discount (%)</th>
+                                    <th class="text-right">Taxes</th>
+                                    <th class="text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for pro in optional_products %}
+                                <tr>
+                                    <td>{{pro.product_name}}
+                                    <p class="item-desc">{{pro.product_description}}</p></td>
+                                    <td class="text-right">{{pro.product_qty}}</td>
+                                    <td class="text-right">{{pro.product_uom_name}}
+                                    <p class="item-unit">{{pro.unit_price|floatformat:2}} unit</p></td>
+                                    <td class="text-right">{{pro.discount|floatformat:2}}</td>
+                                    <td class="text-right">&nbsp;</td>
+                                    <td class="text-right">{{pro.price_subtotal|floatformat:2}} {{currency}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endfor %}
+
+                        <div class="total-box pull-right">
+                            <p><strong>Subtotal:</strong><span>{{opamount_untaxed|floatformat:2}} {{currency}}</span></p>
+                            {% if multiple_tax %}
+                            {% for tax in multiple_tax %}
+                            <p><strong>Tax ({{tax.tax_name}}) :</strong><span>{{tax.tax_amount}} {{currency}}</span></p>
+                            {% endfor %}
+                             {% endif %}
+                            <p><strong>Total Tax:</strong><span>{{optax_amount|floatformat:2}} {{currency}}</span></p>
+                            <p><strong>Total:</strong><span>{{optotal_amount|floatformat:2}} {{currency}}</span></p>
+                        </div>
+                         {% endif %}
+                        <div class="clearfix"></div>
+                        <div class="term-conditions">
+                            {{notes}}
+                            <!--<ul>
+                                <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+                                <li>Aliquam tincidunt mauris eu risus.</li>
+                                <li>Vestibulum auctor dapibus neque.</li>
+                            </ul>-->
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center">
+                        <p>{{legacy_information}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
