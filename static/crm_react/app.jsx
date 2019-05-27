@@ -5,14 +5,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Router, Route,  browserHistory } from 'react-router'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import {root} from 'baobab-react/higher-order';
-import state,{BASE_FULL_URL,RELATIVE_URL} from './common/state';
+import state,{BASE_FULL_URL,RELATIVE_URL} from 'crm_react/common/state';
 import Dashboard from 'crm_react/page/dashboard/dashboard';
 import FullCalendar from 'crm_react/page/calender/full-calendar';
 import SettingCommon from 'crm_react/common/setting';
 import Contact from 'crm_react/common/contact';
 import InstallApplications from 'crm_react/page/user_settings/install-applications';
 import NextActitvityCommon from 'crm_react/component/my-next-activity-common';
-
 
 import Sales from 'crm_react/page/sales/sales';
     import Opportunity from 'crm_react/page/opportunity/Opportunity';

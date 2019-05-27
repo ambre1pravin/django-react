@@ -1,13 +1,13 @@
-import React from 'react';
-import {Router, Route, Link, browserHistory} from 'react-router'
-import state, {BASE_FULL_URL} from 'crm_react/common/state';
-import Header from 'crm_react/component/Header';
-import {translate} from 'crm_react/common/language';
+import React from "react";
+import { Router, Route, Link, browserHistory } from "react-router";
+import state, { BASE_FULL_URL } from "crm_react/common/state";
+import Header from "crm_react/component/Header";
+import { translate } from "crm_react/common/language";
 import LoadLineChart from "../../component/loadLineChart";
 import LoadBarChart from "../../component/loadBarChart";
 
-import DayPicker from 'react-day-picker';
-import 'react-day-picker/lib/style.css';
+import DayPicker from "react-day-picker";
+import "react-day-picker/lib/style.css";
 
 class Sales extends React.Component {
   constructor(props) {
@@ -18,20 +18,20 @@ class Sales extends React.Component {
       showdatepicker: false
     };
     this.handleDayClick = this.handleDayClick.bind(this);
-
-    fetch('http://127.0.0.1:8000/line-chart/')
-    .then(response => response.json())
-    .then(data => this.setState({ data }));
-
+  }
+  componentWillMount() {
+    fetch("http://127.0.0.1:8000/line-chart/")
+      .then(response => response.json())
+      .then(data => this.setState({ data }));
   }
 
   handleDayClick(day, { selected }) {
     this.setState({
-      selectedDay: selected ? undefined : day,
+      selectedDay: selected ? undefined : day
     });
   }
-  showDatePicker(){
-    this.setState({showdatepicker :  !this.state.showdatepicker})
+  showDatePicker() {
+    this.setState({ showdatepicker: !this.state.showdatepicker });
   }
 
   handleSubmit(url) {
@@ -185,7 +185,13 @@ class Sales extends React.Component {
                                     <strong>Total:</strong>
                                   </small>
                                 </td>
-                                <td>150000 €</td>
+                                <td>
+                                  {this.state.data != undefined &&
+                                  this.state.data
+                                    ? this.state.data.invoice_data.invoice_sum
+                                    : 0}{" "}
+                                  €
+                                </td>
                               </tr>
                               <tr>
                                 <td>
@@ -193,7 +199,14 @@ class Sales extends React.Component {
                                     <strong>Average:</strong>
                                   </small>
                                 </td>
-                                <td>1768 €</td>
+                                <td>
+                                  {this.state.data != undefined &&
+                                  this.state.data
+                                    ? this.state.data.invoice_data
+                                        .invoice_average
+                                    : 0}{" "}
+                                  €
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -208,7 +221,13 @@ class Sales extends React.Component {
                                     <strong>Open:</strong>
                                   </small>
                                 </td>
-                                <td>150000 €</td>
+                                <td>
+                                  {this.state.data != undefined &&
+                                  this.state.data
+                                    ? this.state.data.quatations_data.open
+                                    : 0}{" "}
+                                  €
+                                </td>
                               </tr>
                               <tr>
                                 <td>
@@ -216,7 +235,13 @@ class Sales extends React.Component {
                                     <strong>Confirmed:</strong>
                                   </small>
                                 </td>
-                                <td>1768 €</td>
+                                <td>
+                                  {this.state.data != undefined &&
+                                  this.state.data
+                                    ? this.state.data.quatations_data.confirm
+                                    : 0}{" "}
+                                  €
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -231,7 +256,13 @@ class Sales extends React.Component {
                                     <strong>Open:</strong>
                                   </small>
                                 </td>
-                                <td>{this.state.data !=undefined && this.state.data?this.state.data.is_open:0} €</td>
+                                <td>
+                                  {this.state.data != undefined &&
+                                  this.state.data
+                                    ? this.state.data.opportunity_data.is_open
+                                    : 0}{" "}
+                                  €
+                                </td>
                                 {/* <td>{this.state.data.is_open} €</td> */}
                               </tr>
                               <tr>
@@ -240,13 +271,20 @@ class Sales extends React.Component {
                                     <strong>Won:</strong>
                                   </small>
                                 </td>
-                                <td>{this.state.data !=undefined && this.state.data?this.state.data.is_won:0} €</td>
+                                <td>
+                                  {this.state.data != undefined &&
+                                  this.state.data
+                                    ? this.state.data.opportunity_data.is_won
+                                    : 0}{" "}
+                                  €
+                                </td>
                               </tr>
                             </tbody>
                           </table>
                         </li>
-                        <li   className="quotation-dashboard-datepicker text-center">
-                          <i  onClick={((e) => this.showDatePicker())}
+                        <li className="quotation-dashboard-datepicker text-center">
+                          <i
+                            onClick={e => this.showDatePicker()}
                             className="fa fa-calendar fa-2x d-block"
                             aria-hidden="true"
                           />
@@ -256,17 +294,14 @@ class Sales extends React.Component {
                             value="03/09/2019"
                             className="text-center"
                           /> */}
-                         
 
-                          {this.state.showdatepicker && 
+                          {this.state.showdatepicker && (
                             <DayPicker
-                                  selectedDays={this.state.selectedDay}
-                                  onDayClick={this.handleDayClick}
-                                  modifiersStyles={modifiersStyles}
+                              selectedDays={this.state.selectedDay}
+                              onDayClick={this.handleDayClick}
+                              modifiersStyles={modifiersStyles}
                             />
-                           }
- 
-
+                          )}
                         </li>
                       </ul>
                     </div>
@@ -274,8 +309,8 @@ class Sales extends React.Component {
                     <div className="panel panel-default">
                       <div className="panel panel-default quote-chart">
                         <h2>Chart Title</h2>
-                        <LoadLineChart />
-
+                        {/* {this.state.data.opportunity_data.opportunity_sum} */}
+                        <LoadLineChart line_chart={this.state.data} />
                         <div id="chart-legends" className="chartjs-legend" />
                       </div>
                     </div>

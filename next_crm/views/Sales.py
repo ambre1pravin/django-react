@@ -7,6 +7,7 @@ from next_crm.models.sales_order.customer_invoice import Customer_invoice
 from next_crm.forms.opportunity.opportunity_form import OpportunityForm
 from django.db.models import Sum
 import json
+from django.core import serializers
 
 
 
@@ -19,67 +20,68 @@ def sales(request):
 
 def getOpportunity(user_id):
     opportunity = Opportunity.objects.filter(user_id=user_id)
-    opportunity_data = [{'id':i.id, 'month' : (i.created_at).strftime('%B'),
-            'estimated_revenue':int(i.estimated_revenue),
-            'created_at':(i.created_at).strftime("%Y-%m-%d %H:%M:%S")}
-            for i in opportunity
-        ]
+    context = opportunity.aggregate(Sum('estimated_revenue'))
+
+    opportunity_month = [i.created_at.strftime('%B') for i in opportunity]
+    opportunity_amount = [int(i.estimated_revenue) for i in opportunity]
+
     is_won = opportunity.filter(is_won=True).aggregate(Sum('estimated_revenue'))
     is_open = opportunity.filter(is_open=True).aggregate(Sum('estimated_revenue'))
-    context = opportunity.aggregate(Sum('estimated_revenue'))
+
     return {
                 "opportunity_sum":int(context['estimated_revenue__sum']),
-                'opportunity':opportunity_data,
+                'opportunity_month':opportunity_month,
+                'opportunity_amount':opportunity_amount,
                 'is_won':int(is_won['estimated_revenue__sum'] if is_won['estimated_revenue__sum'] else 0),
                 'is_open':int(is_open['estimated_revenue__sum'] if is_open['estimated_revenue__sum'] else 0)
     }
 
 def getQuatations(user_id):
     quatations = Sale_order.objects.filter(create_by_user=user_id, module_type='QUOTATION')
-    confirmed_quat = 0
-    open_quat = 0
-    quatations_list = []
 
-    for i in quatations:
-        if i.status == 'done':
-            confirmed_quat += i.total_amount
-        else:
-            open_quat += i.total_amount
-        
-        quatations_list.append({
-            'month':i.created_at.strftime('%B'),
-            'total_amount': int(i.total_amount),
-            'created_at': str(i.created_at),
-            'status':i.status
-        })
-    return {'quatations':quatations_list,'open':int(open_quat),'confirm':int(confirmed_quat)}
+    quatations_month = [i.created_at.strftime('%B') for i in quatations]
+    quatations_amount = [int(i.total_amount) for i in quatations]
+
+    confirmed_quat = quatations.filter(status='done').aggregate(Sum('total_amount'))
+    open_quat = quatations.filter(status='done').aggregate(Sum('total_amount'))
+
+
+    return {
+        # 'quatations':serializers.serialize('json',  quatations.order_by('-id')),
+            'open':open_quat or 0,
+            'confirm': confirmed_quat or 0,
+            'quatations_amount':quatations_amount,
+            'quatations_month':quatations_month
+        }
 
 def getInvoice(user_id):
     invoice = Customer_invoice.objects.filter(create_by_user=user_id)
-
-    invoice_list =  [{
-                        'month':i.created_at.strftime('%B'),
-                        'created_at': str(i.created_at),
-                        'total_amount': int(i.total_amount)} 
-                        for i in invoice
-                    ]
-
-    invoice_sum = invoice.aggregate(Sum('total_amount'))
-    invoice_average = int(invoice_sum['total_amount__sum'])/len(invoice_list)
+    invoice_month = [i.created_at.strftime('%B') for i in invoice]
+    invoice_amount = [int(i.total_amount) for i in invoice]
     
-    return {'invoice':invoice_list,'invoice_average':invoice_average,'invoice_sum':int(invoice_sum['total_amount__sum'])}
+    invoice_sum = invoice.aggregate(Sum('total_amount'))
+
+    try:
+        invoice_average = int(invoice_sum['total_amount__sum'])/len(invoice_amount)
+    except Exception:
+        invoice_average = 0
+    
+    return {'invoice_amount':invoice_amount, 'invoice_month':invoice_month,
+            'invoice_average':invoice_average,
+            'invoice_sum':int(invoice_sum['total_amount__sum']) if invoice_sum['total_amount__sum'] else 0,
+            'last_invoice':serializers.serialize('json',  invoice.order_by('-id')[:5])
+            }
 
 
 @login_required(login_url="/login/")
 def getChartsData(request):
-    opportunity = getOpportunity(request.user.id)
-    quatations = getQuatations(request.user.id)
-    invoice = getInvoice(request.user.id)
 
     return HttpResponse(json.dumps({ 
-                                    'opportunity':opportunity,
-                                    'quatations':quatations,
-                                    'invoice':invoice
+                                    'opportunity_data': getOpportunity(request.user.id),
+                                    'quatations_data':getQuatations(request.user.id),
+                                    'invoice_data':getInvoice(request.user.id),
+                                    'forecast':''
+
                             }), 
                             content_type="application/json"
                         )
