@@ -28,7 +28,7 @@
     "grunt-contrib-symlink": "^1.0.0",
     "in-array": "^0.1.2",
     "interactjs": "git+https://git@github.com/taye/interact.js.git#v1.3.0-alpha.0",
-    "jquery": "^2.2.4",
+    "jquery": "^3.5.0",
     "lodash": "^4.17.4",
     "package.json": "^2.0.1",
     "papaparse": "^4.3.6",
